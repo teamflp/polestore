@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Valider ma commande : Boutique Poles{% endblock %}
+
+{% block body %}
+
+<div class="container" style="margin-top: 100px;">
+    {#{% for warning in app.flashes('warning') %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ warning }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}#}
+
+    <h1>Valider ma commande</h1>
+    <p>Choisissez vos préférences avant de passer votre commande.</p>
+    <hr>
+    <div class="row bg-light">
+        <div class="col-md-6">
+            <p><b>Adresse de livraison</b></p>
+            {% set formHtml %}
+                {{ form_start(form, {action:path('order')}) }}
+                {{ form_end(form) }}
+            {% endset %}
+
+            {{ formHtml|replace({'[br]' : '<br>'})|raw }}
+
+            <p><b>Valider vos préférences avant de passer votre commande.</b></p>
+
+            <p><b>Vous pouvez modifier votre adresse de livraison en cliquant sur le bouton ci-dessous.</b></p>
+            <a href="{{ path('account_address') }}" class="btn btn-primary">Modifier mon adresse de livraison</a>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-2"><b>Détails de votre commande</b></div>
+            <hr>
+            {% for key,product in cart %}
+                <div class="row bg-light {% if key > 0 %}mt-2{% endif %}">
+                    <div class="col-md-4 my-auto ">
+                        <img src="{{ asset('uploads/' ~ product.product.illustration) }}" alt="{{ product.product.name }}" class="img-fluid">
+                    </div>
+                    <div class="col-md-4 my-auto">
+                        <b>{{ product.product.name }}</b><br>
+                        <small>{{ product.product.subtitle }}</small>
+                    </div>
+                    <div class="col-md-4 my-auto">
+                        x{{ product.quantity }}
+                    </div>
+                    <hr>
+                </div>
+            {% endfor %}
+            <p><b>Valider votre commande.</b></p>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

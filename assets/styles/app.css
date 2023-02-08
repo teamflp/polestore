@@ -1,0 +1,53 @@
+
+i {
+    font-size: 20px;
+}
+
+
+.add-and-remove-to-cart button {
+    margin-right: 10px;
+}
+
+
+.add-and-remove-to-cart i {
+    position: relative;
+    top: 0;
+}
+
+.add-and-remove-to-cart span {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: normal;
+    font-size: small;
+}
+
+.nav-link {
+    color: #fff;
+}
+
+a:link {
+    color: #0735f3;
+    text-decoration: none;
+}
+
+.navbar-toggler-icon {
+    color: #ffffff;
+}
+
+fieldset legend {
+    font-weight: bold;
+}
+
+.btn-group .fa-circle-minus,
+.btn-group .fa-plus-circle {
+    color: #333333;
+}
+
+.card-login {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

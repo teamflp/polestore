@@ -1,0 +1,25 @@
+easy_admin:
+    design:
+        edit_button_label: 'Modifier'
+        edit_button_icon: 'fas fa-pen'
+        edit_button_css_class: 'btn btn-primary'
+        delete_button_label: 'Supprimer'
+        delete_button_icon: 'fas fa-trash'
+        delete_button_css_class: 'btn btn-danger'
+        new_button_label: 'Ajouter'
+        new_button_icon: 'fas fa-plus'
+        new_button_css_class: 'btn btn-success'
+        search_button_label: 'Rechercher'
+        search_button_icon: 'fas fa-search'
+        search_button_css_class: 'btn btn-primary'
+        search_form_css_class: 'form-inline'
+        search_form_input_css_class: 'form-control mr-sm-2'
+        search_form_submit_css_class: 'btn btn-primary my-2 my-sm-0'
+        search_form_reset_css_class: 'btn btn-danger my-2 my-sm-0'
+        search_form_reset_label: 'Réinitialiser'
+
+        login:
+            path: '@EasyAdmin/page/login.html.twig'
+            username_label: 'paterne81@hotmail.fr'
+            password_label: 'Mardochee2008'
+            login_label: 'Se connecter'

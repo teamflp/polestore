@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+
+{# si le block carousel n'est pas défini, alors ajoute un margin-top de 5 #}
+    <div class="w3-container w3-teal">
+        <h2>Formulaire d'inscription</h2>
+    </div>
+    <div class="col-md-5 mx-auto w3-container w3-card-4">
+        {{ form(form) }}
+        <p class="mt-2">Déjà membre ? <a href="{{ path('app_login') }}">Se connecter</a></p>
+    </div>
+{% endblock %}

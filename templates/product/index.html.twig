@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos produits{% endblock %}
+
+{% block body %}
+    <div class="container" style="margin-top: 100px">
+        {#Filtrage de produits par catégorie#}
+        <div class="row">
+            <div class="col-md-2">
+                <h3>Filtrer</h3>
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+            </div>
+            <div class="col-md-10">
+                <h3 class="mb-5">Nos produits</h3>
+                {# On affiche tous les produits #}
+                <div class="row">
+                    {% for success in app.flashes('success') %}
+                        <div id="flash-message" class="alert alert-success" style="display:none">
+                            {{ success }}
+                        </div>
+                    {% endfor %}
+
+                    {% for product in products %}
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="card mb-4 box-shadow">
+                                <a href="{{ path('product', {slug: product.slug}) }}" class="btn btn-sm w3-hover">
+                                    <img src="{{ asset('uploads/' ~ product.illustration) }}" class="img-fluid" alt="{{ product.name }}">
+                                </a>
+                                <div class="card-body">
+                                    <p class="card-text"></p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <a class="text-primary" href="{{ path('add_to_cart', {id: product.id}) }}"><i class="fas fa-cart-plus"></i></a>
+                                        </div>
+                                        <small class="text-muted"><b>{{ (product.price / 100)|number_format(2, ',', ',') }} €</b></small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function() {
+            $('#flash-message').show().delay(5000).fadeOut();
+        });
+    </script>
+{% endblock %}

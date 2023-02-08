@@ -1,5 +1,19 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    form_themes: ['bootstrap_5_layout.html.twig']
+    date:
+        format: 'd/m/Y'
+        interval_format: '%d days'
+        timezone: 'Europe/Paris'
+    number_format:
+        decimals: 2
+        decimal_point: ','
+        thousands_separator: ' '
+    paths:
+        '%kernel.project_dir%/templates': null
+        '%kernel.project_dir%/vendor/easycorp/easyadmin-bundle/src/Resources/views': 'EasyAdmin'
+
+
 
 when@test:
     twig:

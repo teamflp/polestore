@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+
+{% block body %}
+ <div class="container" style="margin-top: 100px">
+    <div class="row">
+        <div class="col-md-12 mt-5">
+            <h1>Mon panier</h1>
+            récapitulatif de la commande
+            <br/>
+            <br/>
+            {% if cart is empty %}
+                <div class="alert alert-warning">
+                    Votre panier est vide
+                </div>
+            {% else %}
+                <table class="w3-table w3-bordered w3-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">Produit</th>
+                            <th scope="col"></th>
+                            <th scope="col">Quantité</th>
+                            <th scope="col">Prix</th>
+                            <th scope="col">Total</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set total = null %} {# on initialise la variable total à null #}
+
+                        {% for product in cart %}
+                            <tr>
+                                <td><img src="{{ asset('uploads/' ~ product.product.illustration) }}" alt="{{ product.product.name }}" height="75px"></td>
+                                <td>{{ product.product.name }} <br/><small>{{ product.product.subtitle }}</small></td>
+                                <td class="justify-content-center">
+                                    <div class="btn-toolbar my-md-auto" role="toolbar" aria-label="Toolbar with button groups">
+                                        <div class="btn-group" role="group" aria-label="First group">
+                                            <div class="bg-light my-auto">
+                                                <a class="btn btn-light" href="{{ path('decrease_to_cart', {'id': product.product.id}) }}"><i class="fa-solid fa-circle-minus"></i></a>
+                                            </div>
+                                            <div class="my-auto p-2"><span>x{{ product.quantity }}</span> </div>
+                                            <div class="bg-light my-auto">
+                                                <a class="btn btn-light" href="{{ path('add_to_cart', {'id': product.product.id}) }}"><i class="fas fa-cart-plus"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {#<div class="btn-group">
+                                        <a class="btn btn-outline-info" href="{{ path('decrease_to_cart', {'id': product.product.id}) }}"><i class="fa-solid fa-circle-minus"></i></a>
+                                        <div class="p-2 add-and-remove-to-cart btn btn-secondary disabled"><span>{{ product.quantity }}</span> </div>
+                                        <a class="btn btn-outline-info" href="{{ path('add_to_cart', {'id': product.product.id}) }}"><i class="fas fa-plus-circle"></i></a>
+                                    </div>#}
+                                </td>
+                                <td>{{ product.product.price / 100 | number_format(2, '.', '.') }} €</td>
+                                <td>{{ (product.product.price * product.quantity / 100) | number_format(2, '.', '.') }} €</td>
+                                <td>
+                                    <a href="{{ path('delete_to_cart', {'id': product.product.id}) }}" class="text-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% set total = total + (product.product.price * product.quantity) %} {# on ajoute le prix du produit multiplié par la quantité à la variable total #}
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <div class="float-end mt-5">
+                    <b>Nombre de produit : </b> {{ cart|length }}<br>
+                    <b>Total : </b> {{ total / 100 | number_format(2, '.', '.') }} €<br>
+                    <a href="{{ path('order') }}" class="btn btn-success btn-block mt-5">Valider mon panier</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+ </div>
+
+{% endblock %}
