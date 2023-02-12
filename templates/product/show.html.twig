@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container" style="margin-top: 100px">
-    <p><a href="{{ path('products') }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Retour à la liste</a></p>
+    <p><a href="{{ path('products') }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Retour à la boutique</a></p>
         <h1 class="mb-5">{{ product.name }}</h1>
 
         {#On affiche les détails du produit#}
@@ -26,18 +26,33 @@
                 <div class="col-md-12 w3-border w3-padding">
                     Ce produit est uniquement livré en France métropolitaine et partout en Europe.
                 </div>
-                <h4 class="text-muted mt-5">
-                <b>Total: {{ (product.price / 100)|number_format(2, ',', ',') }} € </b>
-                </h4>
-                <p class="mt-2">Livraison gratuite dès 50 €.</p>
-                <p>Livré à : Paterne - 142 av Pantin</p>
-                <p class="text-success">Produit en stock</p>
+                {% if product.isStock >= 50 %}
+                    <h4 class="text-muted mt-5">
+                        <b>Total: {{ (product.price / 100)|number_format(2, ',', ',') }} € </b>
+                    </h4>
+                    <p class="mt-2">Livraison gratuite dès 50 €.</p>
+                    <p>Livré à : Paterne - 142 av Pantin</p>
+                    <p class="text-success"> {{ product.isStock }} en stock</p>
+                    {%  else %}
+                    <p class="text-danger {% if product.isStock < 50 %}mt-5{% endif %}">En rupture de stock</p>
+                {% endif %}
                 <div class="w3-border-bottom"></div>
-                <div class="w3-center">
-                    <a href="{{ path('add_to_cart', {'id': product.id}) }}" class="btn btn-block btn-primary mt-5 w-100"><i class="fas fa-cart-plus"></i> Ajouter au panier</a>
-                    <a href="#" onclick="addToFavorites({{ product.id }}); return false;">Ajouter aux favoris</a>
-
-                    <a href="{{ path('cart_favorite', { 'id': product.id }) }}">Mettre à coté</a>
+                <div class="row w3-center">
+                    {% if product.isStock >= 50 %}
+                        <a href="{{ path('add_to_cart', {'id': product.id}) }}" class="btn btn-block btn-primary mt-5 mb-5 w-100"><i class="fas fa-cart-plus"></i> Ajouter au panier</a>
+                        <div class="col-md-6">
+                           <a href="#" onclick="addToFavorites({{ product.id }}); return false;">Ajouter aux favoris</a>
+                        </div>
+                        <div class="col-md-6">
+                           <a href="{{ path('cart_favorite', { 'id': product.id }) }}">Mettre à coté</a>
+                        </div>
+                    {% else %}
+                        <div class="col-md-12">
+                            <a href="{{ path('add_to_cart', {'id': product.id}) }}" class="btn btn-block btn-primary mt-5 mb-5 w-100 disabled ml-2">
+                               <i class="fas fa-cart-plus"></i> Ajouter au panier
+                            </a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
            <ul>

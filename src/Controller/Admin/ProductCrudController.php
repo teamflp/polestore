@@ -6,8 +6,6 @@ use App\Entity\Product;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
@@ -26,7 +24,7 @@ class ProductCrudController extends AbstractCrudController
     {
         // PERSONNALISATION DES ÉLÉMENTS DU MENU AVEC 2 OPTIONS.
         // OPTION 1:
-        yield FormField::addPanel('Informations du produit')
+        /*yield FormField::addPanel('Informations du produit')
             ->setIcon('fa fa-info-circle')
             ->setHelp('Renseignez les informations du produit')
             ->setCssClass('col-md-7')
@@ -52,7 +50,7 @@ class ProductCrudController extends AbstractCrudController
         yield TextEditorField::new('description', 'Description')
             ->setHelp('Renseignez la description du produit');
         yield MoneyField::new('price', 'Preuve')->setCurrency('EUR')->setStoredAsCents(true);
-        yield BooleanField::new('isBest', 'Produit à la une');
+        yield BooleanField::new('isBest', 'Produit à la une');*/
 
 
         // OPTION 2:
@@ -65,8 +63,9 @@ class ProductCrudController extends AbstractCrudController
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
                 ->setRequired(false),
             TextField::new('subtitle', 'Sous-titre'),
-            AssociationField::new('category', 'Catégorie(s)'),
+            AssociationField::new('category', 'Catégories'),
             BooleanField::new('isBest', 'Produit à la une'),
+            BooleanField::new('isStock', 'En stock'),
             MoneyField::new('price', 'Prix')->setCurrency('EUR')->setStoredAsCents(true),
             TextEditorField::new('description', 'Description'),
         ];

@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container" style="margin-top: 150px;">
-        <div class="card-login col-md-5 mx-auto justify-content-center align-content-center">
+        <div class="card-login col-md-4 mx-auto justify-content-center align-content-center">
             {% if error %}
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>{{ error.messageKey|trans(error.messageData, 'security') }}</strong>
@@ -40,14 +40,14 @@
                     </div>
                 </div>
                 <div class="w3-row mb-5">
-                    <div class="w3-col m12">
-                        <p class="mt-2 text-start"> <a href="#">Mot de passe oublié </a></p>
+                    <div class="w3-col m12 mb-5 w3-center">
+                        <button type="submit" class="w3-btn w3-padding w3-teal" style="width:50%">Connexion &nbsp; ❯</button>
                     </div>
-                    <div class="w3-col m9">
-                        <p class="mt-2 text-start">Pas encore inscrit ?  <a href="{{ path('inscription') }}">Créer un compte</a></p>
+                    <div class="w3-col m12 w3-center">
+                        <p class="mt-2 text-primary"> <a href="#">Mot de passe oublié.</a></p>
                     </div>
-                    <div class="w3-col m3">
-                        <button type="submit" class="w3-btn w3-padding w3-teal" style="width:120px">Connexion &nbsp; ❯</button>
+                    <div class="w3-col m12 w3-center">
+                        <p class="mt-2">Pas encore inscrit ?  <a class="text-primary" href="{{ path('inscription') }}">Créer un compte</a></p>
                     </div>
                 </div>
             </form>

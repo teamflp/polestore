@@ -148,7 +148,7 @@
             {% endif %}
             
             {# si le block carousel n'est pas défini, alors ajoute un margin-top de 5 #}
-            <div class="container {% if block('carousel') is not defined %}mt-5{% endif %}">
+            <div class="container {% if block('carousel') is not defined %}mt-5{% endif %}" style="margin-top: 100px;">
                 {% block body %}{% endblock %}
             </div>          
 

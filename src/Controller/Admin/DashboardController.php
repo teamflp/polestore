@@ -55,7 +55,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fas fa-tachometer-alt');
         yield MenuItem::linkToRoute('Aller à la Boutique', 'fa fa-home', 'products');
 
-
         yield MenuItem::section('Gestion');
         yield MenuItem::linkToCrud('Produits', 'fas fa-tags', Product::class)
             ->setDefaultSort(['id' => 'DESC'])

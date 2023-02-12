@@ -39,6 +39,9 @@ class Product
     #[ORM\Column(nullable: true)]
     private ?bool $isBest = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isStock = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -136,6 +139,18 @@ class Product
     public function setIsBest(?bool $isBest): self
     {
         $this->isBest = $isBest;
+
+        return $this;
+    }
+
+    public function isIsStock(): ?bool
+    {
+        return $this->isStock;
+    }
+
+    public function setIsStock(?bool $isStock): self
+    {
+        $this->isStock = $isStock;
 
         return $this;
     }

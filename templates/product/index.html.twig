@@ -28,12 +28,23 @@
                                     <img src="{{ asset('uploads/' ~ product.illustration) }}" class="img-fluid" alt="{{ product.name }}">
                                 </a>
                                 <div class="card-body">
-                                    <p class="card-text"></p>
+                                    <div class="col-md-12 mb-3 text-center">
+                                        <small>
+                                            <a href="{{ path('product', {slug: product.slug}) }}" class="btn btn-sm w3-hover">
+                                                <b>{{ product.name }}</b>
+                                            </a>
+                                        </small>
+                                        <hr>
+                                    </div>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <div class="btn-group">
-                                            <a class="text-primary" href="{{ path('add_to_cart', {id: product.id}) }}"><i class="fas fa-cart-plus"></i></a>
-                                        </div>
-                                        <small class="text-muted"><b>{{ (product.price / 100)|number_format(2, ',', ',') }} €</b></small>
+                                        {% if product.isStock >= 50 %}
+                                            <div class="btn-group">
+                                                <a class="text-primary" href="{{ path('add_to_cart', {id: product.id}) }}"><i class="fas fa-cart-plus"></i></a>
+                                            </div>
+                                            <small class="text-muted"><b>{{ (product.price / 100)|number_format(2, ',', ',') }} €</b></small>
+                                            {% else %}
+                                                <b class="text-danger">En rupture de stock</b>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>

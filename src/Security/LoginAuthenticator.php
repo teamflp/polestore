@@ -27,7 +27,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        $email = $request->request->get('email', '');
+        $email = $request->request->get('email', ''); //
 
         //$request->getSession()->set(Security::LAST_USERNAME, $email); // Code obsolete depuis les versions 5.3
         $request->getSession()->getFlashBag()->set('last_username', $email); // Permet de récupérer le dernier username dans le formulaire de connexion

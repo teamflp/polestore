@@ -1,10 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nos produits{% endblock %}
+{% block title %} Récapitulatif {% endblock %}
 
 {% block body %}
-    <div class="container" style="margin-top: 100px">
+    <h1>Récapitulatif de vos produits</h1>
+    <p>Vérifiez votre commande avant de payer votre commande.</p>
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+            <p><b>Mon adresse de livraison</b></p>
+            <p><b>Transporteur</b></p>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-2"><b>Détails de votre commande</b></div>
+            <hr>
+            {% set total = null %}
 
+            {% for key,product in cart %}
+                <div class="row {% if key > 0 %}mt-2{% endif %}">
+                    <div class="col-md-4">
+                        <img src="{{ asset('uploads/' ~ product.product.illustration) }}" alt="{{ product.product.name }}" class="img-fluid">
+                    </div>
+                    <div class="col-md-4 my-auto">
+                        <b>{{ product.product.name }}</b><br>
+                        <small>
+                            {{ product.product.subtitle }}
+
+                        </small>
+                    </div>
+                    <div class="col-md-4 my-auto">
+                        x{{ product.quantity }} - {{ ((product.product.price * product.quantity) / 100)|number_format(2, ',', ',')}} €
+                    </div>
+                    <hr>
+                </div>
+                {% set total = total + (product.product.price * product.quantity) %}
+            {% endfor %}
+            <hr>
+            <div class="col-md-12 ">
+                {{ dump('carrier') }}
+                <strong>Sous-total:</strong><b>Total : </b> {{ total / 100 | number_format(2, '.', '.') }} €<br><br>
+                <strong>Livraison :</strong><br>
+                <strong>Total     : </strong>
+            </div>
+            <div class="">
+                <a href="" class="w3-btn w3-green btn-block w3-100 mt-3">Payer votre commande</a>
+            </div>
+        </div>
     </div>
 {% endblock %}
-
