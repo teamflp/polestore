@@ -8,20 +8,34 @@
     <hr>
     <div class="row">
         <div class="col-md-6">
-            <p><b>Mon adresse de livraison</b></p>
-            <p><b>Transporteur</b></p>
+            <div class="row">
+                <div class="col-md-12 form-check bg-light mb-2 pt-2">
+                    <p><i class="fas fa-map-marker-alt"></i><b> Adresse de livraison</b></p>
+                    {{ delivery|join('<br>')|raw }}<br>
+                </div>
+                <div class="col-md-12 form-check bg-light mb-2 pt-2">
+                    <p><i class="fas fa-map-marker-alt"></i><b> Adresse de facturation</b></p>
+                    {{ delivery|join('<br>')|raw }}<br>
+                </div>
+                <div class="col-md-12 form-check bg-light mb-2 pt-2">
+                    <p><i class="fas fa-truck"></i><b> Transporteur</b></p>
+                    {{ carrier.name }}<br>
+                    {{ (carrier.price / 100)|number_format(2, ',', ',') }} €<br>
+                    {{ carrier.description|striptags }}
+                </div>
+            </div>
         </div>
         <div class="col-md-6">
-            <div class="mb-2"><b>Détails de votre commande</b></div>
+            <div class="mb-2"><b>Ma commande</b></div>
             <hr>
             {% set total = null %}
 
             {% for key,product in cart %}
                 <div class="row {% if key > 0 %}mt-2{% endif %}">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <img src="{{ asset('uploads/' ~ product.product.illustration) }}" alt="{{ product.product.name }}" class="img-fluid">
                     </div>
-                    <div class="col-md-4 my-auto">
+                    <div class="col-md-5 my-auto">
                         <b>{{ product.product.name }}</b><br>
                         <small>
                             {{ product.product.subtitle }}
@@ -37,10 +51,10 @@
             {% endfor %}
             <hr>
             <div class="col-md-12 ">
-                {{ dump('carrier') }}
-                <strong>Sous-total:</strong><b>Total : </b> {{ total / 100 | number_format(2, '.', '.') }} €<br><br>
-                <strong>Livraison :</strong><br>
-                <strong>Total     : </strong>
+                <strong>Sous-total: </strong>{{ (total / 100) | number_format(2, '.', '.') }} €<br>
+                <strong>Livraison : </strong>{{ carrier is not null ? (carrier.price /100)|number_format(2, '.', '.')  }}€<br>
+                <strong>Total     : </strong>{{ ((total + carrier.price)/ 100)|number_format(2, '.', '.') }} €
+
             </div>
             <div class="">
                 <a href="" class="w3-btn w3-green btn-block w3-100 mt-3">Payer votre commande</a>
