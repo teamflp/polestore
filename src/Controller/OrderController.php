@@ -14,14 +14,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class OrderController extends AbstractController
 {
-    private EntityManagerInterface $em;
+    private  $em;
 
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }
     #[Route('/commande', name: 'order')]
-    public function index(Cart $cart, Request $request): Response
+    public function index(Cart $cart): Response
     {
         // Si l'utilisateur n'a pas d'adresse, on le redirige vers la page d'ajout d'adresse
         if (!$this->getUser()->getAddresses()->getValues()) {
@@ -43,69 +43,62 @@ class OrderController extends AbstractController
         ]);
     }
 
-    #[Route('/commande/recapitulatif', name: 'order_recap', methods: ['POST'])]
+    #[Route('/commande/recapitulatif', name: 'order_recap')]
     public function add(Cart $cart, Request $request): Response
     {
-        $form = $this -> createForm(OrderType::class, null, [ // null = pas de données par défaut
-            'user' => $this -> getUser(),  // On passe l'utilisateur connecté à notre formulaire pour qu'il puisse choisir son adresse de livraison
+        $carriers = null;
+        $delivery_content = null;
+        $form = $this->createForm(OrderType::class, null, [
+            'user' => $this->getUser(),
         ]);
 
-        $form -> handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($form -> isSubmitted() && $form -> isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $date = new \DateTime();
-            $carriers = $form -> get('carriers') -> getData();
-            $delivery = $form -> get('addresses') -> getData();
-            //$delivery= $date->format('d/m/Y');
-            $delivery_content = $delivery -> getFirstname() . ' ' . $delivery -> getLastname();
-            $delivery_content .= '<br>' . $delivery -> getPhone();
+            $carriers = $form->get('carriers')->getData();
+            $delivery = $form->get('addresses')->getData();
+            $delivery_content = $delivery->getFirstname() . ' ' . $delivery->getLastname();
+            $delivery_content .= '<br>' . $delivery->getPhone();
 
-            // Si la compagnie est renseignée
-            if ($delivery -> getCompany()) {
-                $delivery_content .= '<br>' . $delivery -> getCompany();
+            if ($delivery->getCompany()) {
+                $delivery_content .= '<br>' . $delivery->getCompany();
             }
 
-            $delivery_content .= '<br>' . $delivery -> getAddress();
-            $delivery_content .= '<br>' . $delivery -> getPostal() . ' ' . $delivery -> getCity();
-            $delivery_content .= '<br>' . $delivery -> getCountry() . '<br>';
+            $delivery_content .= '<br>' . $delivery->getAddress();
+            $delivery_content .= '<br>' . $delivery->getPostal() . ' ' . $delivery->getCity();
+            $delivery_content .= '<br>' . $delivery->getCountry() . '<br>';
 
-            //dd($delivery_content);
-
-            // Enregistrer la commande : Order
             $order = new Order();
-            $order -> setUser($this -> getUser());
-            $order -> setCreatedAt($date);
-            $order -> setCarrierName($carriers -> getName());
-            $order -> setCarrierPrice($carriers -> getPrice());
-            $order -> setDelivery($delivery_content);
-            $order -> setIsPaid(0); // 0 = non payé
+            $order->setUser($this->getUser());
+            $carriers = $form->get('carriers')->getData();
+            $order->setCreatedAt($date);
+            $order->setCarrierName($carriers->getName());
+            $order->setCarrierPrice($carriers->getPrice());
+            $order->setDelivery($delivery_content);
+            $order->setIsPaid(0);
 
-            $this -> em -> persist($order);
+            $this->em->persist($order);
 
-            /*
-             * Enregistrer mes produits : OrderDetails
-             * Pour chaque produit du panier, on va créer une ligne OrderDetails
-             */
-            foreach ($cart -> getFull() as $product) {
+            foreach ($cart->getFull() as $product) {
                 $orderDetails = new OrderDetails();
-                $orderDetails -> setMyOrder($order);
-                $orderDetails -> setProduct($product['product'] -> getName());
-                $orderDetails -> setQuantity($product['quantity']);
-                $orderDetails -> setPrice($product['product'] -> getPrice());
-                $orderDetails -> setTotal($product['product'] -> getPrice() * $product['quantity']);
-                //dd($orderDetails);
-                $this -> em -> persist($orderDetails);
+                $orderDetails->setMyOrder($order);
+                $orderDetails->setProduct($product['product']->getName());
+                $orderDetails->setQuantity($product['quantity']);
+                $orderDetails->setPrice($product['product']->getPrice());
+                $orderDetails->setTotal($product['product']->getPrice() * $product['quantity']);
+
+                $this->em->persist($orderDetails);
             }
 
             //$this->em->flush();
-            return $this -> render('order/add.html.twig', [
-                'cart' => $cart -> getFull(),
-                'carrier' => $carriers,
-                'delivery' => $delivery_content,
-            ]);
-
         }
-        return $this->redirectToRoute('cart');
+
+        return $this->render('order/add.html.twig', parameters: [
+            'cart' => $cart->getFull(),
+            'carrier' => $carriers,
+            'delivery' => $delivery_content,
+        ]);
     }
 
 }
