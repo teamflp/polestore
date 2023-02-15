@@ -79,7 +79,9 @@ class OrderController extends AbstractController
             $order->setIsPaid(0);
 
             $this->em->persist($order);
+            
 
+            // Enregistrement du produit contenu dans le panier dans la base de données.
             foreach ($cart->getFull() as $product) {
                 $orderDetails = new OrderDetails();
                 $orderDetails->setMyOrder($order);
