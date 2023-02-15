@@ -1,64 +1,71 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} Récapitulatif {% endblock %}
+{% block title %}Récapitulatif{% endblock %}
 
 {% block body %}
-    <h1>Récapitulatif de vos produits</h1>
-    <p>Vérifiez votre commande avant de payer votre commande.</p>
-    <hr>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="row">
+<h1>Récapitulatif de votre commande</h1>
+<hr>
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            {% if delivery is not null %} {# Vérification que la variable delivery est définie #}
                 <div class="col-md-12 form-check bg-light mb-2 pt-2">
                     <p><i class="fas fa-map-marker-alt"></i><b> Adresse de livraison</b></p>
-                    {{ delivery|join('<br>')|raw }}<br>
+                    {{ delivery|raw }} {# Utilisation de la variable delivery #}<br>
                 </div>
                 <div class="col-md-12 form-check bg-light mb-2 pt-2">
                     <p><i class="fas fa-map-marker-alt"></i><b> Adresse de facturation</b></p>
-                    {{ delivery|join('<br>')|raw }}<br>
+                    {{ delivery|raw }}<br>
                 </div>
-                <div class="col-md-12 form-check bg-light mb-2 pt-2">
+            {% endif %}
+            {% if carrier is not null %}
+                <div class="col-md-12 form-check bg-light pb-4 pt-2">
                     <p><i class="fas fa-truck"></i><b> Transporteur</b></p>
-                    {{ carrier.name }}<br>
-                    {{ (carrier.price / 100)|number_format(2, ',', ',') }} €<br>
-                    {{ carrier.description|striptags }}
+                    {{ carrier.name|join('<br>')|raw }}
+                    {{ carrier.description|join('<br>')|raw }}
+                    {{ (carrier.price / 100)|number_format(2, ',', ',') }} €
                 </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="mb-2"><b>Ma commande</b></div>
-            <hr>
-            {% set total = null %}
-
-            {% for key,product in cart %}
-                <div class="row {% if key > 0 %}mt-2{% endif %}">
-                    <div class="col-md-3">
-                        <img src="{{ asset('uploads/' ~ product.product.illustration) }}" alt="{{ product.product.name }}" class="img-fluid">
-                    </div>
-                    <div class="col-md-5 my-auto">
-                        <b>{{ product.product.name }}</b><br>
-                        <small>
-                            {{ product.product.subtitle }}
-
-                        </small>
-                    </div>
-                    <div class="col-md-4 my-auto">
-                        x{{ product.quantity }} - {{ ((product.product.price * product.quantity) / 100)|number_format(2, ',', ',')}} €
-                    </div>
-                    <hr>
-                </div>
-                {% set total = total + (product.product.price * product.quantity) %}
-            {% endfor %}
-            <hr>
-            <div class="col-md-12 ">
-                <strong>Sous-total: </strong>{{ (total / 100) | number_format(2, '.', '.') }} €<br>
-                <strong>Livraison : </strong>{{ carrier is not null ? (carrier.price /100)|number_format(2, '.', '.')  }}€<br>
-                <strong>Total     : </strong>{{ ((total + carrier.price)/ 100)|number_format(2, '.', '.') }} €
-
-            </div>
-            <div class="">
-                <a href="" class="w3-btn w3-green btn-block w3-100 mt-3">Payer votre commande</a>
-            </div>
+            {% endif %}
         </div>
     </div>
+    <div class="col-md-6">
+        <div class="mb-2"><b>Ma commande</b></div>
+        <hr>
+        {% set total = 0 %}
+
+        {% for key, product in cart %}
+            <div class="row {{ key > 0 ? 'mt-2' }}">
+                <div class="col-md-3">
+                    <img src="{{ asset('uploads/' ~ product.product.illustration) }}" alt="{{ product.product.name }}" class="img-fluid">
+                </div>
+                <div class="col-md-5 my-auto">
+                    <b>{{ product.product.name }}</b><br>
+                    <small>{{ product.product.subtitle }}</small>
+                </div>
+                <div class="col-md-4 my-auto">
+                    x{{ product.quantity }} - {{ ((product.product.price * product.quantity) / 100)|number_format(2, ',', ',')}} €
+                </div>
+                <hr>
+            </div>
+            {% set total = total + (product.product.price * product.quantity) %}
+        {% endfor %}
+
+        <hr>
+
+        <div class="col-md-12">
+            <strong>Sous-total: </strong>{{ (total / 100) | number_format(2, '.', '.') }} €<br>
+            {% if carrier is not null %}
+                <strong>Livraison : </strong>{{ (carrier.price / 100)|number_format(2, '.', '.') }} €<br>
+            {% endif %}
+            <strong>Total     : </strong>{{ ((total + (carrier.price ?? 0)) / 100)|number_format(2, '.', '.') }} €
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <a href="{{ path('cart') }}" class="w3-btn w3-green btn-block w-100 mt-3">Modifier ma commande</a>
+    </div>
+    <div class="col-md-6">
+        <a href="" class="w3-btn w3-green btn-block w-100 mt-3">Payer ma commande | ({{ ((total + (carrier.price ?? 0)) / 100)|number_format(2, '.', '.') }} €)</a>
+    </div>
+</div>
 {% endblock %}

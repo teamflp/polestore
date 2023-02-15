@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Carrier;
 use App\Entity\Category;
+use App\Entity\Order;
 use App\Entity\Product;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -55,14 +56,22 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fas fa-tachometer-alt');
         yield MenuItem::linkToRoute('Aller à la Boutique', 'fa fa-home', 'products');
 
-        yield MenuItem::section('Gestion');
+        yield MenuItem::section('Gestion des articles');
         yield MenuItem::linkToCrud('Produits', 'fas fa-tags', Product::class)
             ->setDefaultSort(['id' => 'DESC'])
             ->setCssClass('text-uppercase font-weight-bold text-warning');
         yield MenuItem::linkToCrud('Catégories', 'fas fa-list', Category::class)
             ->setDefaultSort(['id' => 'DESC'])
             ->setCssClass('text-uppercase font-weight-bold text-warning');
+
+        yield MenuItem::section('Gestion des utilisateurs');
         yield MenuItem::linkToCrud('Utilisateur', 'fas fa-users', User::class)
+            ->setDefaultSort(['id' => 'DESC'])
+            ->setCssClass('text-uppercase font-weight-bold text-warning')
+            ->setPermission('ROLE_ADMIN');
+
+        yield MenuItem::section('Gestion des commandes');
+        yield MenuItem::linkToCrud('Commandes', 'fas fa-shopping-cart', Order::class)
             ->setDefaultSort(['id' => 'DESC'])
             ->setCssClass('text-uppercase font-weight-bold text-warning')
             ->setPermission('ROLE_ADMIN');

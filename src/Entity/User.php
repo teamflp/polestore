@@ -44,6 +44,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Order::class)]
     private Collection $orders;
 
+    public function getFullName(): string
+    {
+        return "{$this->firstname} {$this->lastname}";
+    }
+
     public function __construct()
     {
         $this->addresses = new ArrayCollection();

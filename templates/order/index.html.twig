@@ -17,21 +17,26 @@
     <hr>
     <div class="row bg-light">
         <div class="col-md-6">
-            <p><b>Adresse de livraison</b></p>
             {% set formHtml %}
                 {{ form_start(form, {action:path('order_recap')}) }}
+                    <div class="row">
+                        <div class="col-md-6 pb-3">
+                            {{ form_label(form.addresses, 'Choisissez votre adresse de livraison') }}
+                        </div>
+                        <div class="col-md-6 my-auto pb-3">
+                            <a class="w3-right text-primary w3-border btn btn-defaul btn-sm" href="{{ path('account_address_add') }}"> <i class="fas fa-plus-circle"></i> Ajouter une nouvelle adresse</a>
+                        </div>
+                    </div>
                 {{ form_end(form) }}
             {% endset %}
 
             {{ formHtml|replace({'[br]' : '<br>'})|raw }}
 
-            <p><b>Valider vos préférences avant de passer votre commande.</b></p>
-
             <p><b>Vous pouvez modifier votre adresse de livraison en cliquant sur le bouton ci-dessous.</b></p>
             <a href="{{ path('account_address') }}" class="btn btn-primary">Modifier mon adresse de livraison</a>
         </div>
         <div class="col-md-6">
-            <div class="mb-2"><b>Détails de votre commande</b></div>
+            <div class="mb-2 pt-2"><b>Détails de votre commande</b></div>
             <hr>
             {% for key,product in cart %}
                 <div class="row bg-light {% if key > 0 %}mt-2{% endif %}">
