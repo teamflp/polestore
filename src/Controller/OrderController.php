@@ -90,12 +90,14 @@ class OrderController extends AbstractController
                 $this->em->persist($orderDetails);
             }
 
+            //$this -> em ->flush();
+
             return $this -> render('order/add.html.twig', parameters: [
                 'cart' => $cart -> getFull(),
                 'carrier' => $carriers,
                 'delivery' => $delivery_content,
             ]);
         }
-        //return $this->redirectToRoute('');
+        return $this->redirectToRoute('cart');
     }
 }

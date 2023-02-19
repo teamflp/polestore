@@ -7,43 +7,45 @@ use Stripe\Checkout\Session;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class StripeController extends AbstractController
 {
     #[Route('/commande/create-session', name: 'stripe_create_session')]
-    public function index(Cart $cart): Response
+    public function createSession(Cart $cart): JsonResponse
     {
-        $products_for_stripe = [];
         $YOUR_DOMAIN = 'http://127.0.0.1:8000';
+        $productsForStripe = [];
 
         foreach ($cart->getFull() as $product) {
-            $products_for_stripe[] = [
+            $productsForStripe[] = [
                 'price_data' => [
                     'currency' => 'eur',
-                    'unit_amount' => $product['product'] -> getPrice(),
+                    'unit_amount' => $product['product']->getPrice(),
                     'product_data' => [
-                        'name' => $product['product'] -> getName(),
+                        'name' => $product['product']->getName(),
                         'images' => [$YOUR_DOMAIN . "/uploads/" . $product['product']->getIllustration()],
                     ],
                 ],
                 'quantity' => $product['quantity'],
+                // On ajoute le prix du transporteur
             ];
         }
 
-        Stripe ::setApiKey('sk_test_51MctScAfpYZJnEmGpSaAbZEGqoeUQsjIh0mo25uFmXNWC0b0AUiZlDQkAGZHpJknmFDf5jyiFye9l7YFmDxzu4O4006S2kXHd4');
+        Stripe::setApiKey('sk_test_51MctScAfpYZJnEmGpSaAbZEGqoeUQsjIh0mo25uFmXNWC0b0AUiZlDQkAGZHpJknmFDf5jyiFye9l7YFmDxzu4O4006S2kXHd4');
 
-        $checkout_session = Session ::create([
+        $checkoutSession = Session::create([
             'payment_method_types' => ['card'],
-            'line_items' => [
-                $products_for_stripe,
-            ],
+            'line_items' => $productsForStripe,
             'mode' => 'payment',
             'success_url' => $YOUR_DOMAIN . '/success.html',
             'cancel_url' => $YOUR_DOMAIN . '/cancel.html',
+            /*'automatic_tax' => [
+                'enabled' => true,
+            ],*/
         ]);
 
-        return new JsonResponse(['id' => $checkout_session->id]);
+        return new JsonResponse(['id' => $checkoutSession->id], 200, []);
+
     }
 }

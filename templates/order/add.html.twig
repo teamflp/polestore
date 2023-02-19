@@ -65,35 +65,43 @@
         <a href="{{ path('cart') }}" class="w3-btn w3-green btn-block w-100 mt-3">Modifier ma commande</a>
     </div>
     <div class="col-md-6">
-        <button type="submit" class="w3-btn w3-green btn-block w-100 mt-3" id="checkout-button">Payer ma commande | ({{ ((total + (carrier.price ?? 0)) / 100)|number_format(2, '.', '.') }} €)</button>
+            <a class="w3-btn w3-green btn-block w-100 mt-3" id="checkout-button">Payer ma commande | ({{ ((total + (carrier.price ?? 0)) / 100)|number_format(2, '.', '.') }} €)</a>
     </div>
 </div>
 {% endblock %}
 
 
 {% block javascripts %}
-    <script>
-        let stripe = Stripe('sk_test_51MctScAfpYZJnEmGpSaAbZEGqoeUQsjIh0mo25uFmXNWC0b0AUiZlDQkAGZHpJknmFDf5jyiFye9l7YFmDxzu4O4006S2kXHd4');
-        let checkoutButton = document.getElementById('checkout-button');
+    <script src="https://js.stripe.com/v3/"></script>
 
-        checkoutButton.addEventListener('click', function() {
-            fetch("/commande/create-session", {
-                method : "POST",
-            })
-            .then(function(response) {
-              return response.json();
-             })
-            .then(function (session) {
-                return stripe.redirectToCheckout({ sessionId: session.id })
-            })
-            .then(function (result) {
-                if (result.error) {
-                    alert(result.error)
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Créer une instance de Stripe avec votre clé d'API secrète
+            const stripe = Stripe('pk_test_51MctScAfpYZJnEmG2TCPKFZMzxHFVnEUK6kVykeQzYPXJukwwdobTLibk0dguqodDtdkPjg6TCYxL474jOT7QEHZ00UAHg1COB');
+
+            // Récupérer le bouton de paiement
+            const checkoutButton = document.getElementById('checkout-button');
+
+            // Ajouter un écouteur d'événements sur le bouton de paiement
+            checkoutButton.addEventListener('click', async () => {
+                try {
+                    // Envoyer une requête POST pour créer une session de paiement sur le serveur
+                    const response = await fetch("/commande/create-session", { method: "POST" });
+                    const session = await response.json();
+
+                    // Rediriger l'utilisateur vers la page de paiement de Stripe
+                    const result = await stripe.redirectToCheckout({ sessionId: session.id });
+
+                    // Afficher une alerte si une erreur est survenue lors du traitement de la commande
+                    if (result.error) {
+                        alert(result.error.message);
+                    }
+                } catch (error) {
+                    console.error("Error", error);
                 }
-            })
-            .catch(function (error) {
-                console.error("Error". error);
-            })
+            });
         });
+
     </script>
 {% endblock %}

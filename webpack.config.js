@@ -21,7 +21,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
-    //.addEntry('scripts', './assets/js/scripts.js')
+    .addEntry('stripe', './node_modules/@stripe/stripe-js/dist/stripe.js')
     .addEntry('fontawesome', './node_modules/@fortawesome/fontawesome-free/css/all.min.css')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
