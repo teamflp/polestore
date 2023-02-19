@@ -65,7 +65,35 @@
         <a href="{{ path('cart') }}" class="w3-btn w3-green btn-block w-100 mt-3">Modifier ma commande</a>
     </div>
     <div class="col-md-6">
-        <a href="" class="w3-btn w3-green btn-block w-100 mt-3">Payer ma commande | ({{ ((total + (carrier.price ?? 0)) / 100)|number_format(2, '.', '.') }} €)</a>
+        <button type="submit" class="w3-btn w3-green btn-block w-100 mt-3" id="checkout-button">Payer ma commande | ({{ ((total + (carrier.price ?? 0)) / 100)|number_format(2, '.', '.') }} €)</button>
     </div>
 </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script>
+        let stripe = Stripe('sk_test_51MctScAfpYZJnEmGpSaAbZEGqoeUQsjIh0mo25uFmXNWC0b0AUiZlDQkAGZHpJknmFDf5jyiFye9l7YFmDxzu4O4006S2kXHd4');
+        let checkoutButton = document.getElementById('checkout-button');
+
+        checkoutButton.addEventListener('click', function() {
+            fetch("/commande/create-session", {
+                method : "POST",
+            })
+            .then(function(response) {
+              return response.json();
+             })
+            .then(function (session) {
+                return stripe.redirectToCheckout({ sessionId: session.id })
+            })
+            .then(function (result) {
+                if (result.error) {
+                    alert(result.error)
+                }
+            })
+            .catch(function (error) {
+                console.error("Error". error);
+            })
+        });
+    </script>
 {% endblock %}

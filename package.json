@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "@hotwired/stimulus": "^3.2.1",
+    "@stripe/stripe-js": "^1.46.0",
     "@symfony/stimulus-bridge": "^3.2.1"
   }
 }

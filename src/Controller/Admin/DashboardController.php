@@ -14,8 +14,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -40,6 +43,27 @@ class DashboardController extends AbstractDashboardController
         //
         // return $this->render('some/path/my-dashboard.html.twig');
         //return $this->render('@EasyAdmin/page/login.html.twig');
+    }
+
+    public function impersonate(User $user): RedirectResponse
+    {
+        $this->denyAccessUnlessGranted('ROLE_ALLOWED_TO_SWITCH');
+
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+
+        $token = new UsernamePasswordToken($user, null, (array)'main', $user->getRoles());
+        $this->get('security.token_storage')->setToken($token);
+        $this->get('session')->set('_security_main', serialize($token));
+
+        // Rediriger l'utilisateur vers une page de son choix
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            return $this->redirectToRoute('admin');
+            //return new RedirectResponse($this->generateUrl('admin/admin_dashboard'));
+        } else {
+            return new RedirectResponse($this->generateUrl('user_dashboard'));
+        }
     }
 
     public function configureDashboard(): Dashboard
@@ -89,7 +113,7 @@ class DashboardController extends AbstractDashboardController
             return $action
                 ->setIcon('fas fa-plus')
                 ->setLabel('AJOUTER')
-                ->setCssClass('btn btn-success btn-lg btn-block')
+                ->setCssClass('btn btn-warning btn-sm text-white')
                 ->setHtmlAttributes(['title' => 'Ajouter un produit']);
         });
 
@@ -97,7 +121,7 @@ class DashboardController extends AbstractDashboardController
             return $action
                 ->setIcon('fas fa-pen')
                 ->setLabel('ÉDITER')
-                ->setCssClass('btn btn-primary btn-sm')
+                ->setCssClass('btn btn-warning btn-sm text-white')
                 ->setHtmlAttributes(['title' => 'Édit un produit']);
         });
 
@@ -105,17 +129,11 @@ class DashboardController extends AbstractDashboardController
             return $action
                 ->setIcon('fas fa-trash-alt')
                 ->setLabel('SUPPRIMER')
-                ->setCssClass('btn btn-sm')
+                ->setCssClass('btn btn-warning btn-sm text-white')
                 ->setHtmlAttributes(['title' => 'Supprimer un produit']);
         });
 
-        $actions->add(Crud::PAGE_INDEX, Action::DETAIL, function (Action $action) {
-            return $action
-                ->setIcon('fas fa-eye')
-                ->setLabel('VOIR')
-                ->setCssClass('btn btn-info btn-sm')
-                ->setHtmlAttributes(['title' => 'Voir un produit']);
-        });
+        $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
 
         return $actions;
     }

@@ -32,6 +32,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/admin/impersonate, roles: ROLE_ALLOWED_TO_SWITCH }
          - { path: ^/commande, roles: ROLE_USER }
 
 when@test:
