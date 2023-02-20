@@ -86,12 +86,16 @@
             // Ajouter un écouteur d'événements sur le bouton de paiement
             checkoutButton.addEventListener('click', async () => {
                 try {
-                    // Envoyer une requête POST pour créer une session de paiement sur le serveur
-                    const response = await fetch("/commande/create-session", { method: "POST" });
+                    const response = await fetch("/commande/create-session/{{ ref }}", { method: "POST" });
                     const session = await response.json();
 
-                    // Rediriger l'utilisateur vers la page de paiement de Stripe
-                    const result = await stripe.redirectToCheckout({ sessionId: session.id });
+                    if (session.error === 'order') {
+                        // Rediriger l'utilisateur vers une page spécifique pour traiter l'erreur
+                        window.location.href = '{{ path('order') }}';
+                    } else {
+                        // Rediriger l'utilisateur vers la page de paiement de Stripe
+                        const result = await stripe.redirectToCheckout({sessionId: session.id});
+                    }
 
                     // Afficher une alerte si une erreur est survenue lors du traitement de la commande
                     if (result.error) {

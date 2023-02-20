@@ -71,6 +71,8 @@ class OrderController extends AbstractController
             $delivery_content .= '<br>' . $delivery -> getCountry() . '<br>';
 
             $order = new Order();
+            $ref = $date->format('dmY').'-'.uniqid();
+            $order->setRef($ref);
             $order -> setUser($this -> getUser());
             $carriers = $form -> get('carriers') -> getData();
             $order -> setCreatedAt($date);
@@ -80,22 +82,25 @@ class OrderController extends AbstractController
             $order -> setIsPaid(0);
             $this -> em -> persist($order);
 
-            foreach ($cart -> getFull() as $product) {
+            foreach ($cart->getFull() as $product) {
                 $orderDetails = new OrderDetails();
-                $orderDetails -> setMyOrder($order);
-                $orderDetails -> setProduct($product['product'] -> getName());
-                $orderDetails -> setQuantity($product['quantity']);
-                $orderDetails -> setPrice($product['product'] -> getPrice());
-                $orderDetails -> setTotal($product['product'] -> getPrice() * $product['quantity']);
+                $orderDetails->setMyOrder($order);
+                $orderDetails->setProduct($product['product']->getName());
+                $orderDetails->setQuantity($product['quantity']);
+                $orderDetails->setPrice($product['product']->getPrice());
+                $orderDetails->setTotal($product['product']->getPrice() * $product['quantity']);
                 $this->em->persist($orderDetails);
             }
 
-            //$this -> em ->flush();
+            //dd($order);
+
+            $this->em->flush();
 
             return $this -> render('order/add.html.twig', parameters: [
                 'cart' => $cart -> getFull(),
                 'carrier' => $carriers,
                 'delivery' => $delivery_content,
+                'ref' => $order->getRef(),
             ]);
         }
         return $this->redirectToRoute('cart');
