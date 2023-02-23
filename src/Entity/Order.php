@@ -43,6 +43,9 @@ class Order
     #[ORM\Column(length: 255)]
     private ?string $ref = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $stripeSessionId = null;
+
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
@@ -153,7 +156,7 @@ class Order
         return $this;
     }
 
-    public function isIsPaid(): ?bool
+    public function getIsPaid(): ?bool
     {
         return $this->isPaid;
     }
@@ -173,6 +176,18 @@ class Order
     public function setRef(string $ref): self
     {
         $this->ref = $ref;
+
+        return $this;
+    }
+
+    public function getStripeSessionId(): ?string
+    {
+        return $this->stripeSessionId;
+    }
+
+    public function setStripeSessionId(?string $stripeSessionId): self
+    {
+        $this->stripeSessionId = $stripeSessionId;
 
         return $this;
     }

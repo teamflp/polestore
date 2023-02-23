@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Validation de votre commande{% endblock %}
+
+{% block body %}
+
+<div class="">
+    <h3>Validation de votre commande</h3>
+
+    <p>Nous vous remercions pour votre commande n° <b>{{ order.ref }}</b> passée le {{ order.createdAt|date('d/m/Y à H:i') }}.</p>
+
+
+
+    <div class="row">
+
+        <div class="col-md-6">
+            <h3>Mon adresse de livraison:</h3>
+            <p>{{ order.delivery|replace({'[br]' : '<br>'})|raw }}</p>
+            <hr>
+            <h3>Mon adresse de facturation:</h3>
+            <p>{{ order.delivery|replace({'[br]' : '<br>'})|raw }}</p>
+        </div>
+        <div class="col-md-6">
+            <h3>Commande : <b>{{ order.ref }}</b></h3><br><br>
+
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}

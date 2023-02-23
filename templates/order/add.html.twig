@@ -91,10 +91,10 @@
 
                     if (session.error === 'order') {
                         // Rediriger l'utilisateur vers une page spécifique pour traiter l'erreur
-                        window.location.href = '{{ path('order') }}';
+                        window.location.replace ('{{ path('order') }}');
                     } else {
                         // Rediriger l'utilisateur vers la page de paiement de Stripe
-                        const result = await stripe.redirectToCheckout({sessionId: session.id});
+                        const result = await stripe.redirectToCheckout({ sessionId: session.id });
                     }
 
                     // Afficher une alerte si une erreur est survenue lors du traitement de la commande

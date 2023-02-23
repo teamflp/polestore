@@ -17,7 +17,7 @@ class OrderDetails
     #[ORM\JoinColumn(nullable: false)]
     private ?Order $myOrder = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string',length: 255)]
     private ?string $product = null;
 
     #[ORM\Column]
