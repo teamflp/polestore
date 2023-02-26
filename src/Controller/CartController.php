@@ -6,6 +6,7 @@ use App\Classe\Cart;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,22 +37,25 @@ class CartController extends AbstractController
     public function index(Cart $cart): Response
     {
 
+        // On affiche les meilleurs produits
+        $products = $this->em->getRepository(Product::class)->findOneBy(['isBest' => 1]);
 
-       //dd($cartComplete);
         return $this->render('cart/index.html.twig', [
-            //'cart' => $cartComplete
-            'cart' => $cart->getFull()
+            'cart' => $cart->getFull(),
+            'products' => $products,
         ]);
     }
 
     #[Route('/cart/add/{id}', name: 'add_to_cart')]
-    public function add(Cart $cart, $id): Response
+    public function add(Cart $cart, Request $request, $id): Response
     {
         $cart->add($id);
 
-        //$this->addFlash('success', 'Le produit a bien été ajouté au panier');
 
-       return $this->redirectToRoute('cart');
+
+
+        return $this->redirectToRoute('products');
+        // return $this->redirectToRoute('cart');
         //return $this->render('cart/index.html.twig');
     }
 

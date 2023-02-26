@@ -21,13 +21,13 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
-    .addEntry('jquery', './node_modules/jquery/dist/jquery.js')
-    .addEntry('bootstrap', './node_modules/bootstrap/dist/js/bootstrap.bundle.js')
+    .addEntry('scripts', './assets/js/scripts.js')
+    .addEntry('bootstrap.bundle', './node_modules/bootstrap/dist/js/bootstrap.bundle.js')
     .addEntry('stripe', './node_modules/@stripe/stripe-js/dist/stripe.js')
     //.addEntry('aosjs', './node_modules/aos/dist/aos.js')
 
-    //.addEntry('aoscss', './node_modules/aos/dist/aos.css')
-    .addEntry('bootstrapcss', './node_modules/bootstrap/dist/css/bootstrap.css')
+    .addEntry('flex', './assets/styles/flex.min.css')
+    .addEntry('bootstrap', './node_modules/bootstrap/dist/css/bootstrap.css')
     .addEntry('fontawesome', './node_modules/@fortawesome/fontawesome-free/css/all.min.css')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)

@@ -28,6 +28,7 @@ class SearchType extends AbstractType
             ->add('categories', EntityType::class, [
                 'label' => false,
                 'class'=> Category::class,
+                'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true,
             ])

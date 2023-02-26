@@ -51,3 +51,141 @@ fieldset legend {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.navbar-toggler-icon {
+    color: #fff;
+}
+
+
+
+/********* BARRE DE NAVIGATION PERSONNALISÉE *********/
+nav {
+    padding: 1rem 2rem;
+    background-color: #333;
+    color: #fff;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: flex-end; /* Ajout de cette ligne pour aligner les liens à droite */
+}
+
+.nav-links li {
+    list-style: none;
+    margin-right: 1.5rem; /* Modification de margin-left en margin-right pour aligner les liens à droite */
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.burger {
+    display: none;
+    cursor: pointer;
+}
+
+.burger .line {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    margin: 5px;
+}
+
+.search-box {
+    position: relative;
+}
+
+.search-box input[type="text"] {
+    padding: 0.3rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.search-box i {
+    position: absolute;
+    top: 49.9%;
+    left: 91.5%;
+    transform: translateY(-50%);
+    color: #555;
+    font-size: 1.2rem;
+    border-radius: 50%;
+    padding: 0.8rem;
+}
+
+.search-box button {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin-left: -36px;
+}
+
+.search-box {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 20px;
+}
+
+.search-box .input-group {
+    height: 45px;
+}
+
+.search-box .form-control {
+    border-radius: 0;
+    height: 45px;
+}
+
+.search-box .btn-outline-secondary {
+    border-radius: 0;
+    height: 45px;
+}
+
+/********* FIN BARRE DE NAVIGATION PERSONNALISÉE *********/
+
+/********* MEDIA QUERIES *********/
+
+@media screen and (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .burger {
+        display: block;
+        align-items: end;
+    }
+
+    .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        right: 0; /* Ajout de cette ligne pour positionner le menu déroulant à droite */
+        width: 100%;
+        background-color: #333;
+        padding: 10px;
+        transition: all 0.5s ease-in;
+    }
+
+    .nav-links.active li {
+        margin: 0.5rem;
+    }
+
+    .nav-links.active a {
+        color: #fff;
+    }
+
+    .nav-item .login {
+        margin-top: 10px;
+    }
+}

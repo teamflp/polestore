@@ -3,17 +3,19 @@
 {% block title %}Nos produits{% endblock %}
 
 {% block body %}
-    <div class="container" style="margin-top: 100px">
-        {#Filtrage de produits par catégorie#}
-        <div class="row">
-            <div class="col-md-2">
-                <h3>Filtrer</h3>
-                {{ form_start(form) }}
-                {{ form_widget(form) }}
-            </div>
-            <div class="col-md-10">
-                <h3 class="mb-5">Nos produits</h3>
-                {# On affiche tous les produits #}
+<div class="container" style="margin-top: 100px">
+    {# Filtrage de produits par catégorie #}
+    <div class="row">
+        <div class="col-md-2">
+            <h3>Filtrer</h3>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+        </div>
+        <div class="col-md-10">
+            <h3 class="mb-5">Nos produits</h3>
+            {% if products is empty %}
+                <p>Aucun produit trouvé.</p>
+            {% else %}
                 <div class="row">
                     {% for success in app.flashes('success') %}
                         <div id="flash-message" class="alert alert-success" style="display:none">
@@ -42,8 +44,8 @@
                                                 <a class="text-primary" href="{{ path('add_to_cart', {id: product.id}) }}"><i class="fas fa-cart-plus"></i></a>
                                             </div>
                                             <small class="text-muted"><b>{{ (product.price / 100)|number_format(2, ',', ',') }} €</b></small>
-                                            {% else %}
-                                                <b class="text-danger">En rupture de stock</b>
+                                        {% else %}
+                                            <b class="text-danger">En rupture de stock</b>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -51,15 +53,15 @@
                         </div>
                     {% endfor %}
                 </div>
-            </div>
+            {% endif %}
         </div>
     </div>
-{% endblock %}
+    {% endblock %}
 
-{% block javascripts %}
-    <script>
-        $(document).ready(function() {
-            $('#flash-message').show().delay(5000).fadeOut();
-        });
-    </script>
-{% endblock %}
+    {% block javascripts %}
+        <script>
+            $(document).ready(function() {
+                $('#flash-message').show().delay(5000).fadeOut();
+            });
+        </script>
+    {% endblock %}

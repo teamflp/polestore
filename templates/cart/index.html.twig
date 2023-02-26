@@ -6,15 +6,32 @@
  <div class="container" style="margin-top: 100px">
     <div class="row">
         <div class="col-md-12 mt-5">
-            <h1>Mon panier</h1>
-            récapitulatif de la commande
-            <br/>
-            <br/>
-            {% if cart is empty %}
-                <div class="alert alert-warning">
-                    Votre panier est vide
+            <div class="row">
+                <div class="col-md-6">
+                    Meilleurs produits
                 </div>
-            {% else %}
+                <div class="col-md-6">
+                    {% if cart is empty %}
+                        {% if is_granted("ROLE_USER") or is_granted("ROLE_ADMIN") %}
+                            <p>Vous n'avez pas encore ajouté de produit à votre panier.</p>
+                            <br/><br/>
+                            <hr/>
+                            <a href="{{ path('products') }}" class="btn btn-primary">Allez à la boutique</a>
+                        {% else %}
+                        <div>
+                            <p>Vous n'avez pas encore ajouté de produit à votre panier.</p>
+                            <a href="{{ path('app_login') }}" class="btn btn-primary">Connecter-vous à votre compte</a>
+                            <a href="{{ path('inscription') }}" class="btn btn-secondary">Inscrivez-vous maintenant</a>
+                        </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if cart %}
+                <h1>Mon panier</h1>
+                <p>récapitulatif de la commande</p>
+                <a href="{{ path('products') }}" class="btn btn-primary">Continuer mes achats</a>
                 <table class="w3-table w3-bordered w3-center">
                     <thead>
                         <tr>
@@ -41,7 +58,19 @@
                                             </div>
                                             <div class="my-auto p-2"><span>x{{ product.quantity }}</span> </div>
                                             <div class="bg-light my-auto">
-                                                <a class="btn btn-light" href="{{ path('add_to_cart', {'id': product.product.id}) }}"><i class="fas fa-cart-plus"></i></a>
+                                                {# On reste sur la page panir si on ajoute un produit #}
+
+                                                {#<a class="btn btn-light" href="{{ path('add_to_cart', {'id': product.product.id}) }}">
+                                                    <i class="fas fa-cart-plus"></i>
+                                                </a>#}
+
+                                                <form action="{{ path('add_to_cart', {'id': product.product.id}) }}" method="post">
+                                                    <input type="hidden" name="id" value="{{ product.product.id }}">
+                                                    <button type="submit" class="btn btn-light">
+                                                        <i class="fas fa-cart-plus"></i>
+                                                    </button>
+                                                </form>
+
                                             </div>
                                         </div>
                                     </div>

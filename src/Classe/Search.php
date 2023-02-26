@@ -5,12 +5,22 @@ namespace App\Classe;
 class Search
 {
     /**
-     * @var string
+     * @var string|null
      */
-    public string $string = '';
+    public ?string $string = '';
 
     /**
-     * @var array
+     * @var int[]|null
      */
-    public array $categories = [];
+    public ?array $categories = [];
+
+    /**
+     * @var string|null
+     */
+    public ?string $productName = '';
+
+    /**
+     * @var string|null
+     */
+    public ?string $categoryName = '';
 }

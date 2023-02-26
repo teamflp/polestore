@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
+use App\Classe\Cart;
 use App\Entity\Order;
-use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\NoReturn;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,37 +13,35 @@ use Symfony\Component\Routing\Annotation\Route;
 class OrderValidateController extends AbstractController
 {
     private EntityManagerInterface $em;
+    private Cart $cart;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, Cart $cart)
     {
-        $this -> em = $em;
+        $this->em = $em;
+        $this->cart = $cart;
     }
-    #[NoReturn] #[Route('/commande/success/{stripeSessionId}', name: 'order_validate')]
+
+    #[NoReturn]
+    #[Route('/commande/success/{stripeSessionId}', name: 'order_validate')]
     public function index($stripeSessionId): Response
     {
         $order = $this->em->getRepository(Order::class)->findOneByStripeSessionId($stripeSessionId);
 
-        if ($order->getUser() != $this->getUser()) { // Si la commande n'existe pas ou si l'utilisateur n'est pas le bon
-            return $this->redirectToRoute('home'); // On redirige vers la page d'accueil ou 404 si la commande n'existe pas ou
+        if (!$order || $order->getUser() !== $this->getUser()) {
+            return $this->redirectToRoute('home');
         }
 
-        // 1- On met à jour le statut ispaid à 1 de la commande
-        if (!$order->getIsPaid()) { // Si la commande n'est pas payée
-            $order->setIsPaid(1); // 1 = payée sur Stripe, sinon 0 = non payée
-            $this->em->flush();
-            $this->addFlash('success', 'Votre commande a bien été validée');
-
-            // Après avoir validé la commande, on vide le panier
-           // $this->get('session')->remove('cart');
-
-            // 2- On envoie un mail à l'utilisateur pour lui confirmer sa commande
-
-        } else {
+        if ($order->getIsPaid()) {
             $this->addFlash('warning', 'Cette commande a déjà été validée');
+            return $this->render('order_validate/index.html.twig', ['order' => $order]);
         }
 
-        return $this->render('order_validate/index.html.twig', [
-            'order' => $order,
-        ]);
+        $order->setIsPaid(true);
+        $this->em->flush();
+        $this->addFlash('success', 'Votre commande a bien été validée');
+
+        $this->cart->remove(); // Utilisation de la méthode "remove()" de l'objet Cart pour vider le panier
+
+        return $this->render('order_validate/index.html.twig', ['order' => $order]);
     }
 }

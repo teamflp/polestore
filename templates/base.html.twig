@@ -10,24 +10,19 @@
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
-            {{ encore_entry_link_tags('bootstrapcss') }}
+            {{ encore_entry_link_tags('flex') }}
+            {{ encore_entry_link_tags('bootstrap') }}
             {{ encore_entry_link_tags('fontawesome') }}
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.css" integrity="sha512-Ef5r/bdKQ7JAmVBbTgivSgg3RM+SLRjwU0cAgySwTSv4+jYcVeDukMp+9lZGWT78T4vCUxgT3g+E8t7uabwRuw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         {% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('jquery') }}
-            {{ encore_entry_link_tags('bootstrap') }}
-            {{ encore_entry_script_tags('stripe') }}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg bg-dark bg-primary fixed-top">
+        {#<nav class="navbar navbar-expand-lg bg-dark bg-primary fixed-top">
             <div class="container">
                 <a class="navbar-brand w3-text-white" href="{{ path('home') }}">Boutique Poles</a>
-                <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon text-white"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -40,12 +35,11 @@
                         <li class="nav-item">
                             <a class="nav-link w3-text-white" href="#"><i class="fa-solid fa-headphones"></i> Assistance</a>
                         </li>
-
                     </ul>
                 </div>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    {# Si l'utilisateur n'a pas le rôle admin et qu'il a le rôle user #}
+                    #}{# Si l'utilisateur n'a pas le rôle admin et qu'il a le rôle user #}{#
                     {% if not is_granted("ROLE_ADMIN") and is_granted("ROLE_USER") %}
                         <ul class="navbar-nav mb-2 mb-lg-0">
                             <li class="nav-item dropdown">
@@ -61,7 +55,7 @@
                         </ul>
                     {% endif %}
 
-                    {# Si l'utilisateur a uniquement le rôle admin #}
+                    #}{# Si l'utilisateur a uniquement le rôle admin #}{#
                     {% if is_granted("ROLE_ADMIN") %}
                         <ul class="navbar-nav mb-2 mb-lg-0">
                             <li class="nav-item dropdown">
@@ -78,22 +72,61 @@
                         </ul>
                     {% endif %}
 
-                    {# Sinon, si aucune action #}
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        {% include '_partials/search.html.twig' %}
+                    </div>
+                    #}{# Sinon, si aucune action #}{#
                     {% if not is_granted("ROLE_ADMIN") and not is_granted("ROLE_USER") %}
-                        <ul class="navbar-nav mb-2 mb-lg-0">
-                            <li class="btn btn-outline-info">
-                                <a class="dropdown-item w3-text-white text-uppercase" href="{{ path('app_login') }}">Connexion</a>
-                            </li>&nbsp;&nbsp;
-                            <li class="btn btn-outline-info">
-                                <a class="dropdown-item w3-text-white text-uppercase" href="{{ path('inscription') }}">Inscription</a>
-                            </li>
-                        </ul>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item login">
+                            <a class="w3-text-white text-uppercase btn btn-outline-info w-100" href="{{ path('app_login') }}">Connexion</a>
+                        </li>&nbsp;
+                    </ul>   &nbsp;
                     {% endif %}
                 </div>
-                <a href="{{ path('cart') }}" class="w3-text-white w3-right"><i class="fas fa-cart-shopping"></i></a>
+                <div class="">
+                    <a href="{{ path('cart') }}" class="w3-text-white w3-right">
+                        <i class="fas fa-cart-shopping"></i> <sub class="text-info">Panier</sub>
+                    </a>
+                </div>
+            </div>
+        </nav>#}
+
+        {# BARRE DE NAVIGATION PERSONNALISÉE #}
+       <nav>
+            <div class="d-flex j-content-s-b a-items-center a-content-center">
+                <div class="logo">
+                    <a href="#">Poles Store</a>
+                </div>
+                <ul class="nav-links a-items-start">
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#">À propos</a></li>
+                    <li class="dropdown">
+                        <a href="#">Services</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Service 1</a></li>
+                            <li><a href="#">Service 2</a></li>
+                            <li><a href="#">Service 3</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+                <div class="search-box">
+                    <label>
+                        <input type="text" placeholder="Rechercher">
+                    </label>
+                    <i class="fas fa-search"></i>
+                </div>
+
+                <div class="burger">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
             </div>
         </nav>
 
+        {# BARRE DE NAVIGATION PERSONNALISÉE #}
         <main role="main" class="mb-xxl-5 pt-5">
             {# si le block carousel est défini #}
             {% if block ('carousel') is defined %} 
@@ -156,5 +189,25 @@
                 <p>© 2017-2018 Boutique Poles. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
             </footer>
         </main>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js" integrity="sha512-i9cEfJwUwViEPFKdC1enz4ZRGBj8YQo6QByFTF92YXHi7waCqyexvRD75S5NVTsSiTv7rKWqG9Y5eFxmRsOn0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+            <script>
+                $(document).ready(function() {
+                    $('.burger').click(function() {
+                        $('.nav-links').toggle(600);
+                    })
+                })
+
+                $(document).ready(function(){
+                    $('.carousel').carousel({
+                        interval: 2000
+                    })
+                });
+            </script>
+        {% endblock %}
     </body>
 </html>

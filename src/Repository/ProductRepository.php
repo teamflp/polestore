@@ -65,6 +65,30 @@ class ProductRepository extends ServiceEntityRepository
                 ->setParameter('string', '%');
         }
 
+        //return $query->getQuery()->getResult();
+
+        /*$query = $this->createQueryBuilder('p')
+            ->select('c', 'p')
+            ->join('p.category', 'c');
+
+        if (!empty($search->categories)) {
+            $query = $query
+                ->andWhere('c.id IN (:categories)')
+                ->setParameter('categories', $search->categories);
+        }*/
+
+        if (!empty($search->categoryName)) {
+            $query = $query
+                ->andWhere('c.name LIKE :categoryName')
+                ->setParameter('categoryName', '%'.$search->categoryName.'%');
+        }
+
+        if (!empty($search->productName)) {
+            $query = $query
+                ->andWhere('p.name LIKE :productName')
+                ->setParameter('productName', '%'.$search->productName.'%');
+        }
+
         return $query->getQuery()->getResult();
     }
 

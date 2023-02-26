@@ -34,6 +34,7 @@ security:
          - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/admin/impersonate, roles: ROLE_ALLOWED_TO_SWITCH }
          - { path: ^/commande, roles: ROLE_USER }
+         - { path: ^/compte, roles: ROLE_USER }
 
 when@test:
     security:
