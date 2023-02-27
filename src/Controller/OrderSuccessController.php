@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class OrderValidateController extends AbstractController
+class OrderSuccessController extends AbstractController
 {
     private EntityManagerInterface $em;
     private Cart $cart;
@@ -22,7 +22,7 @@ class OrderValidateController extends AbstractController
     }
 
     #[NoReturn]
-    #[Route('/commande/success/{stripeSessionId}', name: 'order_validate')]
+    #[Route('/commande/success/{stripeSessionId}', name: 'order_success')]
     public function index($stripeSessionId): Response
     {
         $order = $this->em->getRepository(Order::class)->findOneByStripeSessionId($stripeSessionId);
@@ -33,7 +33,7 @@ class OrderValidateController extends AbstractController
 
         if ($order->getIsPaid()) {
             $this->addFlash('warning', 'Cette commande a déjà été validée');
-            return $this->render('order_validate/index.html.twig', ['order' => $order]);
+            return $this->render('order_success/index.html.twig', ['order' => $order]);
         }
 
         $order->setIsPaid(true);
@@ -42,6 +42,6 @@ class OrderValidateController extends AbstractController
 
         $this->cart->remove(); // Utilisation de la méthode "remove()" de l'objet Cart pour vider le panier
 
-        return $this->render('order_validate/index.html.twig', ['order' => $order]);
+        return $this->render('order_success/index.html.twig', ['order' => $order]);
     }
 }

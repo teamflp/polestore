@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreur de paiement{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Erreur de paiement</h1>
+        <div class="row">
+            {% if app.flashes('warning') is defined %}
+                {% for message in app.flashes('warning') %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="w3-border-bottom pt-3 mb-5">
+                <p>
+                    Nous sommes désolés, mais il semble qu'il y ait eu un problème lors du traitement de votre paiement concernant votre commande n° <strong>{{ order.ref }}</strong>. <br>
+                    Veuillez vérifier que les informations de paiement que vous avez fournies sont correctes et réessayez.
+                    Si le problème persiste, vous êtes prié de contacter notre service <a href="#">clientèle</a> pour obtenir de l'aide.  <br>
+                    Nous sommes là pour vous aider à résoudre ce problème et nous nous excusons pour tout inconvénient que cela pourrait causer.
+                </p>
+            </div>
+
+            <div class="col-md-6">
+                <h3>Mon adresse de livraison:</h3>
+                <p>{{ order.delivery|replace({'[br]' : '<br>'})|raw }}</p>
+                <hr>
+                <h3>Mon adresse de facturation:</h3>
+                <p>{{ order.delivery|replace({'[br]' : '<br>'})|raw }}</p>
+            </div>
+            <div class="col-md-6">
+                <h3>Commande : <b>{{ order.ref }}</b></h3><br><br>
+            </div>
+        </div>
+        <p class="text-center w3-border-top pt-3">
+            <a class="btn w3-teal" href="{{ path('order') }}">Réessayez le paiement</a>
+        </p>
+    </div>
+{% endblock %}

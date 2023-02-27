@@ -20,7 +20,13 @@
                 </div>
             {% endfor %}
         {% endif %}
-        <p>Nous vous remercions pour votre commande n° <b>{{ order.ref }}</b> passée le {{ order.createdAt|date('d/m/Y à H:i') }}.</p>
+        <div class="w3-border-bottom pt-3 mb-5">
+            <p>
+                Nous vous remercions pour votre commande n° <strong>{{ order.ref }}</strong> passée le <strong>{{ order.createdAt|date('d/m/Y à H:i') }}</strong>. <br>
+                Un email de confirmation vous a été envoyé à l'adresse <strong>{{ order.user.email }}</strong>.<br><br>
+                Votre commande sera livrée par {{ order.carrierName }} ______________<i class="fas fa-truck"></i>
+            </p>
+        </div>
 
         <div class="col-md-6">
             <h3>Mon adresse de livraison:</h3>
@@ -33,5 +39,9 @@
             <h3>Commande : <b>{{ order.ref }}</b></h3><br><br>
         </div>
     </div>
+    <p class="text-center w3-border-top pt-3">
+        Vous pouvez dès à présent suivre l'avancement de votre commande en vous rendant dans votre compte. <br><br>
+        <a class="btn w3-teal" href="{{ path('app_account') }}">Voir mes commandes</a>
+    </p>
 </div>
 {% endblock %}

@@ -153,29 +153,204 @@ nav {
 
 /********* FIN BARRE DE NAVIGATION PERSONNALISÉE *********/
 
-/********* MEDIA QUERIES *********/
-
+/********* MEDIA QUERIES MAX 768 *********/
 @media screen and (max-width: 768px) {
     .nav-links {
         width: 100%;
         height: 100vh;
+        left: 0;
+        top: -22.7%;
         display: none;
+        overflow: hidden;
         position: absolute;
         margin-top: 11.5rem;
-        left: 0;
-        top: -25%;
         padding-bottom: 1rem;
         border-top: 1px solid #fff;
-        overflow: hidden;
-        background-color: rgba(51, 51, 51, 0.85);
         transition: height 0.5s ease-in-out;
+        background-color: rgba(51, 51, 51, 0.85);
         z-index: 6000;
     }
 
     .search {
         position: absolute;
         padding: 0 1rem;
-        top: 70%;
+        top: 55%;
+        left: 50%;
+        width: 100%;
+        z-index: 1000;
+        transform: translate(-50%, -50%);
+    }
+
+    .login {
+        padding: 0.5rem 1rem;
+        bottom: 0;
+        left: 0;
+        position: fixed;
+        width: 100%;
+        background-color: #333;
+        z-index: 6000;
+
+    }
+
+    .nav-links li {
+        width: 100%;
+        list-style: none;
+        margin-top: 1rem;
+        margin-right: 1.5rem; /* Modification de margin-left en margin-right pour aligner les liens à droite */
+    }
+
+    .nav-links li a:hover{
+        color: #fff;
+    }
+    .dropdown {
+        width: 100%;
+        display: block;
+        position: absolute;
+    }
+
+    .burger {
+        display: block;
+        align-items: end;
+    }
+
+    .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        right: 0; /* Ajout de cette ligne pour positionner le menu déroulant à droite */
+        width: 100%;
+        height: 100vh;
+        background-color: #333;
+        padding: 10px;
+        transition: all 0.5s ease-in;
+    }
+
+    .nav-links.active li {
+        margin: 0.5rem;
+    }
+
+    .dropdown:hover .dropdown-menu {
+        display: block;
+        width: 100%;
+        border: 1px solid red;
+    }
+    .nav-links.active a {
+        color: #fff;
+    }
+
+    .nav-item .login {
+        margin-top: 10px;
+    }
+
+    .nav-active {
+        display: block;
+    }
+
+    .no-scroll {
+        overflow: hidden;
+    }
+
+    .close-menu {
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 1.5rem;
+        color: #000;
+        padding: 10px;
+        background-color: #fff;
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .close-menu:hover {
+        background-color: #f1f1f1;
+    }
+
+    .burger {
+        width: 40px;
+        height: 40px;
+        position: relative;
+        cursor: pointer;
+    }
+    .burger .line {
+        color: #fff;
+        width: 30px;
+        height: 3px;
+        background-color: #fff;
+        margin: 5px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .burger:before, .burger:after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        z-index: -1;
+        border-radius: 50%;
+        transform: scale(0);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .burger:before {
+        transform-origin: left top;
+    }
+
+    .burger:after {
+        transform-origin: right top;
+    }
+
+    .burger.open:before, .burger.open:after {
+        transform: scale(1);
+    }
+    .burger.open .line:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+
+    .burger.open .line:nth-child(2) {
+        opacity: 0;
+    }
+
+    .burger.open .line:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+
+    .close-menu {
+        display: none;
+    }
+
+    .burger.open + .close-menu {
+        display: block;
+    }
+
+
+}
+
+/********* MEDIA QUERIES MAX 768 *********/
+@media screen and (max-width: 812px) {
+    .nav-links {
+        width: 100%;
+        height: 100vh;
+        left: 0;
+        top: -22.7%;
+        display: none;
+        overflow: hidden;
+        position: absolute;
+        margin-top: 11.5rem;
+        padding-bottom: 1rem;
+        border-top: 1px solid #fff;
+        transition: height 0.5s ease-in-out;
+        background-color: rgba(51, 51, 51, 0.85);
+        z-index: 6000;
+    }
+
+    .search {
+        position: absolute;
+        padding: 0 1rem;
+        top: 55%;
         left: 50%;
         width: 100%;
         z-index: 1000;

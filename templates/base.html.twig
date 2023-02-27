@@ -18,9 +18,9 @@
 
     </head>
     <body>
-        {#<nav class="navbar navbar-expand-lg bg-dark bg-primary fixed-top">
+        <nav class="navbar navbar-expand-lg w3-teal bg-primary fixed-top">
             <div class="container">
-                <a class="navbar-brand w3-text-white" href="{{ path('home') }}">Boutique Poles</a>
+                <a class="navbar-brand w3-text-white" href="{{ path('home') }}">Poles</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon text-white"></span>
                 </button>
@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    #}{# Si l'utilisateur n'a pas le rôle admin et qu'il a le rôle user #}{#
+                    {# Si l'utilisateur n'a pas le rôle admin et qu'il a le rôle user #}
                     {% if not is_granted("ROLE_ADMIN") and is_granted("ROLE_USER") %}
                         <ul class="navbar-nav mb-2 mb-lg-0">
                             <li class="nav-item dropdown">
@@ -55,7 +55,7 @@
                         </ul>
                     {% endif %}
 
-                    #}{# Si l'utilisateur a uniquement le rôle admin #}{#
+                    {# Si l'utilisateur a uniquement le rôle admin #}
                     {% if is_granted("ROLE_ADMIN") %}
                         <ul class="navbar-nav mb-2 mb-lg-0">
                             <li class="nav-item dropdown">
@@ -75,7 +75,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         {% include '_partials/search.html.twig' %}
                     </div>
-                    #}{# Sinon, si aucune action #}{#
+                    {# Sinon, si aucune action #}
                     {% if not is_granted("ROLE_ADMIN") and not is_granted("ROLE_USER") %}
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item login">
@@ -84,16 +84,17 @@
                     </ul>   &nbsp;
                     {% endif %}
                 </div>
-                <div class="">
+                <div class="panier">
                     <a href="{{ path('cart') }}" class="w3-text-white w3-right">
                         <i class="fas fa-cart-shopping"></i> <sub class="text-info">Panier</sub>
                     </a>
                 </div>
+
             </div>
-        </nav>#}
+        </nav>
 
         {# BARRE DE NAVIGATION PERSONNALISÉE #}
-        <nav>
+       {# <nav>
             <div class="d-flex j-content-s-b a-items-center a-content-center">
                 <div class="logo">
                     <a href="{{ path('home') }}">Poles Store</a>
@@ -125,7 +126,7 @@
                     <div class="line"></div>
                 </div>
             </div>
-        </nav>
+        </nav>#}
 
 
         {# BARRE DE NAVIGATION PERSONNALISÉE #}
@@ -212,7 +213,7 @@
                             $('body').removeClass('no-scroll');
                         } else {
                             $(this).addClass('open');
-                            $('.nav-links').addClass('nav-active');
+                            $('.nav-links').addClass('nav-active w3-hover');
                             $('body').addClass('no-scroll');
                         }
                     });
@@ -221,12 +222,8 @@
                         $('.burger').removeClass('open');
                         $('.nav-links').removeClass('nav-active');
                         $('body').removeClass('no-scroll');
-                    });
+                    }, 2000);
                 });
-
-
-
-
 
                 $(document).ready(function(){
                     $('.carousel').carousel({

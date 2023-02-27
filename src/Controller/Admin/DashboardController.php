@@ -58,11 +58,11 @@ class DashboardController extends AbstractDashboardController
         $this->get('session')->set('_security_main', serialize($token));
 
         // Rediriger l'utilisateur vers une page de son choix
-        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('admin');
             //return new RedirectResponse($this->generateUrl('admin/admin_dashboard'));
         } else {
-            return new RedirectResponse($this->generateUrl('user_dashboard'));
+            return new RedirectResponse($this->generateUrl('home'));
         }
     }
 
