@@ -93,31 +93,32 @@
         </nav>#}
 
         {# BARRE DE NAVIGATION PERSONNALISÉE #}
-       <nav>
+        <nav>
             <div class="d-flex j-content-s-b a-items-center a-content-center">
                 <div class="logo">
-                    <a href="#">Poles Store</a>
+                    <a href="{{ path('home') }}">Poles Store</a>
                 </div>
                 <ul class="nav-links a-items-start">
-                    <li><a href="#">Accueil</a></li>
-                    <li><a href="#">À propos</a></li>
-                    <li class="dropdown">
-                        <a href="#">Services</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Service 1</a></li>
-                            <li><a href="#">Service 2</a></li>
-                            <li><a href="#">Service 3</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="{{ path('products') }}">Boutique</a></li>
+                    <li><a href="#"><i class="fa-solid fa-headphones"></i> Assistance</a></li>
                     <li><a href="#">Contact</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <div class="search">
+                        {% include '_partials/search.html.twig' %}
+                    </div>
+                    <div class="close-menu">
+                        <i class="fas fa-times"></i>
+                    </div>
                 </ul>
-                <div class="search-box">
-                    <label>
-                        <input type="text" placeholder="Rechercher">
-                    </label>
-                    <i class="fas fa-search"></i>
+                <div class="login">
+                    <a class="w3-text-white text-uppercase w-100" href="{{ path('app_login') }}"><i class="fas fa-user"></i> Connexion</a>
                 </div>
-
+                <div class="cart ">
+                    <a href="{{ path('cart') }}" class="w3-text-white">
+                        <i class="fas fa-cart-shopping"></i> <sub class="text-info">Panier</sub>
+                    </a>
+                </div>
                 <div class="burger">
                     <div class="line"></div>
                     <div class="line"></div>
@@ -125,6 +126,7 @@
                 </div>
             </div>
         </nav>
+
 
         {# BARRE DE NAVIGATION PERSONNALISÉE #}
         <main role="main" class="mb-xxl-5 pt-5">
@@ -196,17 +198,42 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
             <script>
+                /*$(document).ready(function() {
+                    $('.burger').click(function() {
+                        $('.nav-links').slide(600);
+                    })
+                })*/
+
                 $(document).ready(function() {
                     $('.burger').click(function() {
-                        $('.nav-links').toggle(600);
-                    })
-                })
+                        if ($(this).hasClass('open')) {
+                            $(this).removeClass('open');
+                            $('.nav-links').removeClass('nav-active');
+                            $('body').removeClass('no-scroll');
+                        } else {
+                            $(this).addClass('open');
+                            $('.nav-links').addClass('nav-active');
+                            $('body').addClass('no-scroll');
+                        }
+                    });
+
+                    $('.close-menu').click(function() {
+                        $('.burger').removeClass('open');
+                        $('.nav-links').removeClass('nav-active');
+                        $('body').removeClass('no-scroll');
+                    });
+                });
+
+
+
+
 
                 $(document).ready(function(){
                     $('.carousel').carousel({
                         interval: 2000
                     })
                 });
+
             </script>
         {% endblock %}
     </body>
