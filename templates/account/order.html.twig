@@ -16,25 +16,25 @@
                 <thead class="w3-teal">
                 <tr>
                     <th>Numéro de commande</th>
+                    <th>Produit(s)</th>
                     <th>Date de commande</th>
                     <th>Montant</th>
-                    <th>Action</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for order in orders %}
                     <tr>
                         <td>{{ order.ref }}</td>
+                        <td>{{ order.orderDetails|length }}</td>
                         <td>{{ order.getCreatedAt()|date('d/m/Y') }}</td>
-                        <td>{{ (order.getTotal()/100)|number_format(2, ',', ',') }} €</td>
-                        <td><a href="{{ path('order') }}" class="btn w3-teal">Voir la commande</a></td>
+                        <td>{{ ((order.carrierPrice + order.getTotal) / 100)|number_format(2, ',', ',') }} €</td>
+                        <td><a href="{{ path('account_order_show', {'ref' : order.ref}) }}" class="btn btn-outline-default w3-right w3-text-teal">Voir la commande</a></td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
         {% endif %}
-
-
     </div>
 {% endblock %}
 

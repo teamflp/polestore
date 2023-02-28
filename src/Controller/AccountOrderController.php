@@ -29,4 +29,16 @@ class AccountOrderController extends AbstractController
             'orders' => $orders,
         ]);
     }
+    #[Route('/account/commandes/{ref}', name: 'account_order_show')]
+    public function show($ref): Response
+    {
+        $order = $this->em->getRepository(Order::class)->findOneByRef($ref);
+        if (!$order || $order->getUser() !== $this->getUser()) {
+            return $this->redirectToRoute('account_order');
+        }
+
+        return $this->render('account/order_show.html.twig', [
+            'order' => $order,
+        ]);
+    }
 }
