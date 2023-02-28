@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class StripeController extends AbstractController
 {
     #[Route('/commande/create-session/{ref}', name: 'stripe_create_session')]
-    public function index(EntityManagerInterface $em, Cart $cart, $ref): JsonResponse
+    public function index(EntityManagerInterface $em, $ref): JsonResponse
     {
         $YOUR_DOMAIN = 'http://127.0.0.1:8000';
         $productsForStripe = [];
@@ -41,7 +41,6 @@ class StripeController extends AbstractController
                     ],
                 ],
                 'quantity' => $product->getQuantity(),
-                // On ajoute le prix du transporteur
             ];
         }
 
@@ -65,9 +64,7 @@ class StripeController extends AbstractController
             'payment_method_types' => ['card'],
             'line_items' => $productsForStripe,
             'mode' => 'payment',
-            //'success_url' => $YOUR_DOMAIN . '/success.html',
             'success_url' => $YOUR_DOMAIN . '/commande/success/{CHECKOUT_SESSION_ID}',
-            //'cancel_url' => $YOUR_DOMAIN . '/cancel.html',
             'cancel_url' => $YOUR_DOMAIN . '/commande/failed/{CHECKOUT_SESSION_ID}',
             /*'automatic_tax' => [
                 'enabled' => true,

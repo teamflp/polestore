@@ -1,12 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mes commandes{% endblock %}
+{% block title %}Mon compte : mes commandes{% endblock %}
 
 {% block body %}
+    <div class="container" style="margin-top: 100px">
+        <h1>Mes commandes</h1><hr>
+        <a class="btn w3-teal" href="{{ path('app_account') }}">Retour à mon compte</a>
 
-<div class="example-wrapper">
-    <h1>Mes commandes</h1>
-    On affiche toutes les commandes de l'utilisateur connecté
+        <hr>
 
-</div>
+        {% if orders is empty %}
+            <p>Vous n'avez pas encore passé de commande.</p>
+        {% else %}
+            <table class="table">
+                <thead class="w3-teal">
+                <tr>
+                    <th>Numéro de commande</th>
+                    <th>Date de commande</th>
+                    <th>Montant</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ order.ref }}</td>
+                        <td>{{ order.getCreatedAt()|date('d/m/Y') }}</td>
+                        <td>{{ (order.getTotal()/100)|number_format(2, ',', ',') }} €</td>
+                        <td><a href="{{ path('order') }}" class="btn w3-teal">Voir la commande</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+
+    </div>
 {% endblock %}
+

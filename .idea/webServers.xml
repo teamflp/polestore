@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="e62345c0-4ad4-4d4b-8cc7-9fe2f8aef250" name="sotre" url="http://153.92.220.222">
+        <fileTransfer accessType="SFTP" host="153.92.220.222" port="65002" sshConfigId="82c8354b-d50e-4ebc-bc1a-9685c83da79a" sshConfig="u639802712@153.92.220.222:65002 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" isUseRsync="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

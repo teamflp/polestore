@@ -24,7 +24,6 @@ class HomeController extends AbstractController
     {
         $search = new Search();
 
-        //$search = new Search();
         $search->string = $request->get('q', '');
         $search->categories = $request->get('categories', []);
         $search->productName = $request->get('productName', '');

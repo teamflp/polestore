@@ -27,7 +27,7 @@ class OrderSuccessController extends AbstractController
     {
         $order = $this->em->getRepository(Order::class)->findOneByStripeSessionId($stripeSessionId);
 
-        if (!$order || $order->getUser() !== $this->getUser()) {
+        if (!$order || $order->getUser() !== $this->getUser()) { // Si la commande n'existe pas ou si l'utilisateur n'est pas le bon
             return $this->redirectToRoute('home');
         }
 
