@@ -3,14 +3,110 @@
 {% block title %}Nos produits{% endblock %}
 
 {% block body %}
-<div class="container" style="margin-top: 100px">
+
     {# Filtrage de produits par catégorie #}
     <div class="row">
         <div class="col-md-2">
             <h3>Filtrer</h3>
-            {{ form_start(form) }}
-            {{ form_widget(form) }}
+            {#{{ form_start(form) }}
+            {{ form_widget(form) }}#}
+
+           {#<form class="w-100 mr-20" method="get" action="{{ path('products') }}">
+                <div class="col">
+                    <input class="form-control rounded-pill w3-input w3-border" type="search" name="string" placeholder="Rechercher" aria-label="Search" value="{{ search ? search.string : '' }}">
+                    <select class="w3-select rounded-pill w3-border mr-sm-2 mt-3" name="category">
+                        <option value="">Toutes les catégories</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}" {% if search and category.id == search.category %}selected{% endif %}>{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn w3-btn w3-teal w-100 mt-5">Filtrer</button>
+           </form>
+                <hr class="w3-border"></hr>
+           <form class="w-100 mr-20" method="get" action="{{ path('products') }}">
+                <div class="col mt-4">
+                       #}{#{% if search.min is defined %}
+                            <span class="w3-badge">{{ search.min }}</span><br><br>
+                       {% else %}
+                            <span class="w3-badge">{{ priceRange.min }}</span><br><br>
+                       {% endif %}#}{#
+
+                    <label for="max_price">Prix maximum : <span id="maxPriceSpan" class="w-text-teal">{{ (search ? search.maxPrice/100 : priceRange.max/100)|number_format(2, ',',',') }} €</span></label>
+                    <input class="w3-input w3-border" type="range" name="maxPrice" id="max_price" min="{{ priceRange.min }}" max="{{ priceRange.max }}" value="{{ (search ? search.maxPrice/100 : priceRange.max/100)|number_format(2, ',',',') }} }} €" oninput="updatePrice(this)">
+                </div>
+                <button type="submit" class="btn w3-btn w3-teal w-100 mt-5">Filtrer par prix</button>
+           </form>#}
+
+           {#{% if search is not null and search.string is defined %}
+                <p>Vous avez recherché "{{ search.string }}"</p>
+           {% else %}
+                <p>Aucune recherche effectuée</p>
+           {% endif %}
+
+
+           {% if search.minPrice is defined or search.maxPrice is defined %}
+                <p>Vous avez sélectionné une fourchette de prix entre "{{ search.minPrice|number_format(2, ',', ' ') }} €" et "{{ search.maxPrice|number_format(2, ',', ' ') }} €"</p>
+           {% endif %}
+
+           <form class="w-100 mr-20" method="get" action="{{ path('products') }}">
+                <div class="col">
+                <input class="form-control rounded-pill w3-input w3-border" type="search" name="string" placeholder="Rechercher" aria-label="Search" value="{{ search ? search.string : '' }}">
+
+                    <select class="w3-select rounded-pill w3-border mr-sm-2 mt-3" name="category">
+                        <option value="">Toutes les catégories</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}" {% if search and category.id == search.category %}selected{% endif %}>{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn w3-btn w3-teal w-100 mt-5">Filtrer</button>
+           </form>
+
+           <hr class="w3-border">
+
+           <form class="w-100 mr-20" method="get" action="{{ path('products') }}">
+                <div class="col mt-4">
+                    <label for="max_price">Prix maximum : <span id="maxPriceSpan" class="w-text-teal">{{ (search ? search.maxPrice/100 : priceRange.max/100)|number_format(2, ',',',') }} €</span></label>
+                    <input class="w3-input w3-border" type="range" name="maxPrice" id="max_price" min="{{ priceRange.min }}" max="{{ priceRange.max }}" value="{{ (search ? search.maxPrice/100 : priceRange.max/100)|number_format(2, ',',',') }} }} €" oninput="updatePrice(this)">
+                </div>
+                <button type="submit" class="btn w3-btn w3-teal w-100 mt-5">Filtrer par prix</button>
+           </form>#}
+
+
+           {% if search is not null and search.string is defined %}
+                <p>Vous avez recherché "{{ search.string }}"</p>
+           {% else %}
+                <p>Aucune recherche effectuée</p>
+            {% endif %}
+
+           {% if search.minPrice is defined or search.maxPrice is defined %}
+                <p>Vous avez sélectionné une fourchette de prix entre "{{ search.minPrice|number_format(2, ',', ' ') }} €" et "{{ search.maxPrice|number_format(2, ',', ' ') }} €"</p>
+           {% endif %}
+
+            <form class="w-100 mr-20" method="get" action="{{ path('products') }}">
+                <div class="col">
+                    <input class="w3-input rounded-pill w3-border" type="search" name="string" placeholder="Rechercher" aria-label="Search" value="{{ search ? search.string : '' }}">
+
+                    <select class="w3-select rounded-pill form-control w3-input w3-bar-item w3-border mr-sm-2 mt-3" name="category">
+                        <option value="">Toutes les catégories</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}" {% if search and category.id == search.category %}selected{% endif %}>{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col mt-4">
+                    <label for="max_price">Prix maximum :
+                       <span id="maxPriceSpan" class="w-text-teal">{{ (search ? (search.maxPrice/100)|number_format(2, ',', '.') : (priceRange.max/100)|number_format(2, ',', '.')) ~ ' €' }}</span>
+                    </label>
+                    <input class="form-range rounded-pill w3-input w3-bar-item" type="range" name="maxPrice" id="max_price" min="{{ priceRange.min }}" max="{{ priceRange.max }}" value="{{ search ? (search.maxPrice/100)|number_format(2, ',',',') : (priceRange.max/100)|number_format(2, ',',',') }}" oninput="updatePrice(this)">
+                </div>
+
+                <button type="submit" class="btn w3-btn w3-teal w-100 mt-5">Filtrer</button>
+            </form>
         </div>
+
         <div class="col-md-10">
             <h3 class="mb-5">Nos produits</h3>
             {% if products is empty %}
@@ -55,13 +151,26 @@
                 </div>
             {% endif %}
         </div>
-    </div>
+
     {% endblock %}
 
     {% block javascripts %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" integrity="sha512-vu31kD/t3Hq3y7pITeRK5g5qlKjQ6uSSR6H5d6Ufi7VUZqf3q7ouUyF5z5b5EoItFvEd8PZnSdKXAcddbrTYbg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-XNwKPdZm3qZ1Kp9AZ+OJ20GLxbFCbLhsyKXPW1+eRHw+sGktvY82+EKY8yP86n0CfPRNOvMDUhZtQ8Z9TbTlLg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
         <script>
             $(document).ready(function() {
                 $('#flash-message').show().delay(5000).fadeOut();
             });
+
+            $('.slider').slider({
+              formatter: function(value) {
+                return '$' + value;
+              }
+            });
+
+            function updatePrice(slider) {
+              document.getElementById('maxPriceSpan').textContent = slider.value;
+            }
         </script>
     {% endblock %}

@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Classe\Mail;
 use App\Classe\Search;
+use App\Entity\Category;
 use App\Entity\Product;
 use App\Form\SearchType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,6 +21,7 @@ class HomeController extends AbstractController
     {
         $this->em = $em;
     }
+
     #[Route('/', name: 'home')]
     public function index(Request $request): Response
     {
@@ -29,8 +32,28 @@ class HomeController extends AbstractController
         $search->productName = $request->get('productName', '');
         $search->categoryName = $request->get('categoryName', '');
         $search = $request->query->get('search');
+
+        // Récupérer la liste de toutes les catégories
+        $categories = $this->em->getRepository(Category::class)->findAll();
+
+        // Mailjet
+        /*$mail = new Mail();
+        $mail->send('paterne81@hotmail.fr', 'Paterne81', 'Mail de test', 'Mon mail de test Mailjet');*/
+
         return $this->render('home/index.html.twig', [
             'search' => $search,
+            'categories' => $categories,
+        ]);
+    }
+
+    #[Route('/category/{id}', name: 'category_show')]
+    public function showCategory(Request $request, Category $category): Response
+    {
+        $products = $this->em->getRepository(Product::class)->findBy(['category' => $category]);
+
+        return $this->render('product/index.html.twig', [
+            'category' => $category,
+            'products' => $products,
         ]);
     }
 }

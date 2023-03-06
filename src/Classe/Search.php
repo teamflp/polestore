@@ -23,4 +23,14 @@ class Search
      * @var string|null
      */
     public ?string $categoryName = '';
+
+    /**
+     * @var int|null
+     */
+    public ?int $minPrice = null;
+
+    /**
+     * @var int|null
+     */
+    public ?int $maxPrice = null;
 }

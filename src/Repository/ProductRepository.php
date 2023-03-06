@@ -40,8 +40,7 @@ class ProductRepository extends ServiceEntityRepository
         }
     }
 
-    // On crée une méthode pour récupérer les produits en fonction de la recherche
-    public function findWithSearch( Search $search)
+    public function findWithSearch(Search $search)
     {
         $query = $this->createQueryBuilder('p')
             ->select('c', 'p')
@@ -52,44 +51,40 @@ class ProductRepository extends ServiceEntityRepository
                 ->andWhere('c.id IN (:categories)')
                 ->setParameter('categories', $search->categories);
         }
-        // Si le nom de la recherche est présent dans la chaine de caractère de la recherche alors on affiche les produits
+
         if (!empty($search->string)) {
             $query = $query
-                ->andWhere('p.name LIKE :string')
-                ->setParameter('string', '%'.$search->string.'%'); // on recherche une phrase qui contient la chaine de caractère
-        }
-        // Si le champ est vide alors on affiche tous les produits
-        else{
-            $query = $query
-                ->andWhere('p.name LIKE :string')
-                ->setParameter('string', '%');
+                ->andWhere('p.name LIKE :string OR c.name LIKE :string')
+                ->setParameter('string', '%'.$search->string.'%');
         }
 
-        //return $query->getQuery()->getResult();
-
-        /*$query = $this->createQueryBuilder('p')
-            ->select('c', 'p')
-            ->join('p.category', 'c');
-
-        if (!empty($search->categories)) {
+        if (!empty($search->minPrice)) {
             $query = $query
-                ->andWhere('c.id IN (:categories)')
-                ->setParameter('categories', $search->categories);
-        }*/
-
-        if (!empty($search->categoryName)) {
-            $query = $query
-                ->andWhere('c.name LIKE :categoryName')
-                ->setParameter('categoryName', '%'.$search->categoryName.'%');
+                ->andWhere('p.price >= :minPrice')
+                ->setParameter('minPrice', $search->minPrice);
         }
 
-        if (!empty($search->productName)) {
+        if (!empty($search->maxPrice)) {
             $query = $query
-                ->andWhere('p.name LIKE :productName')
-                ->setParameter('productName', '%'.$search->productName.'%');
+                ->andWhere('p.price <= :maxPrice')
+                ->setParameter('maxPrice', $search->maxPrice);
         }
 
         return $query->getQuery()->getResult();
+    }
+
+    public function findPriceRange(): array
+    {
+        $query = $this->createQueryBuilder('p')
+            ->select('MIN(p.price) as minPrice', 'MAX(p.price) as maxPrice')
+            ->getQuery();
+
+        $result = $query->getSingleResult();
+
+        return [
+            'minPrice' => $result['minPrice'],
+            'maxPrice' => $result['maxPrice'],
+        ];
     }
 
 //    /**

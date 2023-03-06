@@ -25,7 +25,7 @@ class RegisterType extends AbstractType
                 'label' => 'Votre nom',
                 'required' => false,
                 'attr' => [
-                    'class' => 'w3-input w3-border'
+                    'class' => 'w3-input w3-border col-md-12'
                 ],
                 'constraints' => [
                     new NotNull([
@@ -43,7 +43,7 @@ class RegisterType extends AbstractType
                 'label' => 'Votre prénom',
                 'required' => false,
                 'attr' => [
-                    'class' => 'w3-input w3-border'
+                    'class' => 'w3-input w3-border col-md-12'
                 ],
                 'constraints' => [
                     new NotNull([
@@ -61,7 +61,7 @@ class RegisterType extends AbstractType
                 'label' => 'Votre email',
                 'required' => false,
                 'attr' => [
-                    'class' => 'w3-input w3-border'
+                    'class' => 'w3-input w3-border col-md-12'
                 ],
                 'constraints' => [
                     new NotNull([
@@ -81,14 +81,14 @@ class RegisterType extends AbstractType
                     'label' => 'Mot de passe',
                     'attr' => [
                         'placeholder' => 'Entrez votre mot de passe',
-                        'class' => 'w3-input w3-border',
+                        'class' => 'w3-input w3-border col-md-12',
                     ]
                 ],
                 'second_options' => [
                     'label' => 'Confirmez votre mot de passe',
                     'attr' => [
                         'placeholder' => 'Confirmez votre mot de passe',
-                        'class' => 'w3-input w3-border',
+                        'class' => 'w3-input w3-border col-md-12',
                     ]
                 ],
                 'constraints' => [
@@ -107,7 +107,7 @@ class RegisterType extends AbstractType
             ->add('submit', SubmitType::class, [
                 'label' => 'S\'inscrire',
                 'attr' => [
-                    'class' => 'w3-btn w3-green',
+                    'class' => 'btn w3-teal btn-block w-100',
                 ],
             ])
         ;

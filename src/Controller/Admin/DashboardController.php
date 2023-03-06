@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Carrier;
 use App\Entity\Category;
+use App\Entity\Invoice;
 use App\Entity\Order;
 use App\Entity\Product;
 use App\Entity\User;
@@ -99,7 +100,14 @@ class DashboardController extends AbstractDashboardController
             ->setDefaultSort(['id' => 'DESC'])
             ->setCssClass('text-uppercase font-weight-bold text-warning')
             ->setPermission('ROLE_ADMIN');
+
         yield MenuItem::linkToCrud('Transporteurs', 'fas fa-truck', Carrier::class)
+            ->setDefaultSort(['id' => 'DESC'])
+            ->setCssClass('text-uppercase font-weight-bold text-warning')
+            ->setPermission('ROLE_ADMIN');
+
+        yield MenuItem::section('Gestion des factures');
+        yield MenuItem::linkToCrud('Factures', 'fas fa-file-invoice', Invoice::class)
             ->setDefaultSort(['id' => 'DESC'])
             ->setCssClass('text-uppercase font-weight-bold text-warning')
             ->setPermission('ROLE_ADMIN');

@@ -3,9 +3,10 @@
 namespace App\Controller;
 
 use App\Classe\Cart;
+use App\Classe\Mail;
 use App\Entity\Order;
 use Doctrine\ORM\EntityManagerInterface;
-use JetBrains\PhpStorm\NoReturn;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,14 +15,17 @@ class OrderSuccessController extends AbstractController
 {
     private EntityManagerInterface $em;
     private Cart $cart;
+    private Mail $mail;
+    private LoggerInterface $logger;
 
-    public function __construct(EntityManagerInterface $em, Cart $cart)
+    public function __construct(EntityManagerInterface $em, Cart $cart, Mail $mail, LoggerInterface $logger)
     {
         $this->em = $em;
         $this->cart = $cart;
+        $this->mail = $mail;
+        $this->logger = $logger;
     }
 
-    #[NoReturn]
     #[Route('/commande/success/{stripeSessionId}', name: 'order_success')]
     public function index($stripeSessionId): Response
     {
@@ -38,7 +42,11 @@ class OrderSuccessController extends AbstractController
 
         $order->setIsPaid(true);
         $this->em->flush();
-        $this->addFlash('success', 'Votre commande a bien été validée');
+        $this->addFlash('success', 'Votre commande a bien été validée.');
+
+        $content = "Bonjour, ". $order->getUser()->getFirstName(). ' '. $order->getUser()->getLastName() . "\n Merci pour votre commande sur notre boutique.\n\n";
+        $this->mail->send($order->getUser()->getEmail(), $order->getUser()->getFirstName(). ' '. $order->getUser()->getLastName(), 'Votre commande a bien été validée', $content);
+        $this->logger->info('Order success email sent', ['to_email' => $order->getUser()->getEmail()]);
 
         $this->cart->remove(); // Utilisation de la méthode "remove()" de l'objet Cart pour vider le panier
 

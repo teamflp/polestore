@@ -6,6 +6,7 @@ use App\Classe\Search;
 use App\Entity\Category;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,19 +19,28 @@ class SearchType extends AbstractType
     {
         $builder
             ->add('string', TextType::class, [
-                'label' => false,
+                'label' => 'Rechercher par nom de produit',
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Votre recherche...',
-                    'class' => 'form-control-sm'
+                    'class' => 'form-control mt-3',
                 ]
             ])
             ->add('categories', EntityType::class, [
-                'label' => false,
+                'label' => 'Chercher par catégorie',
                 'class'=> Category::class,
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true,
+            ])
+            ->add('priceRange', RangeType::class, [
+                'mapped' => false,
+                'label' => 'Filtrer par prix',
+                'attr' => [
+                    'min' => 0,
+                    'max' => 1000,
+                    'step' => 10,
+                ]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Filtrer',

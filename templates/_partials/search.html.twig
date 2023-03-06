@@ -1,6 +1,28 @@
- <form class="d-flex w-100 mr-20" method="get" action="{{ path('products') }}">
+
+{#
+Dans la première partie de code, on vérifie si une recherche par nom a été effectuée.
+Si c'est le cas, on utilise la méthode filter de Twig pour filtrer les produits en fonction du nom saisi.
+La fonction contains est utilisée pour trouver les produits dont le nom contient la chaîne de caractères saisie.
+On utilise également la fonction lower pour comparer les noms en minuscules.
+Dans le formulaire, on a ajouté un bouton de type "submit" pour lancer la recherche.
+En utilisant ce code, seuls les produits dont le nom contient la chaîne de caractères saisie devraient s'afficher après la recherche.
+#}
+
+{#{% if search is not null and search.productName is defined %}
+    {% set products = products|filter(p => p.name matches '/\\b'~search.productName|lower~'/i') %}
+{% endif %}#}
+
+{% if search is defined and search.productName is defined %}
+    {% set products = products|filter(p => p.name matches '/\\b'~search.productName|lower~'/i') %}
+{% endif %}
+
+
+<form class="d-flex w-100 mr-20" method="get" action="{{ path('products') }}">
     <div class="input-group">
-        <input class="form-control rounded-pill  w3-input" type="search" name="categoryName" placeholder="Rechercher" aria-label="Search">
-       {# <button type="submit"><i class="fas fa-search w3-round w3-border text-bg-info text-white"></i></button>#}
+        <input class="form-control w3-input w3-input w3-bar-item w3-white w3-hide-small" type="search" name="productName" placeholder="Rechercher" aria-label="Search">
+        <button type="submit" class="btn w3-black">Rechercher</button>
     </div>
- </form>
+</form>
+
+
+

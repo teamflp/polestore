@@ -39,6 +39,17 @@ class CategoryRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByCategoryName(string $categoryName): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->join('p.category', 'c')
+            ->where('c.name = :categoryName')
+            ->setParameter('categoryName', $categoryName)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Category[] Returns an array of Category objects
 //     */
