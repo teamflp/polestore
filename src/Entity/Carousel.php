@@ -26,6 +26,12 @@ class Carousel
     #[ORM\Column(nullable: true)]
     private ?bool $isActivated = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $btnTitle = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $bntUrl = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +81,30 @@ class Carousel
     public function setIsActivated(?bool $isActivated): self
     {
         $this->isActivated = $isActivated;
+
+        return $this;
+    }
+
+    public function getBtnTitle(): ?string
+    {
+        return $this->btnTitle;
+    }
+
+    public function setBtnTitle(string $btnTitle): self
+    {
+        $this->btnTitle = $btnTitle;
+
+        return $this;
+    }
+
+    public function getBntUrl(): ?string
+    {
+        return $this->bntUrl;
+    }
+
+    public function setBntUrl(string $bntUrl): self
+    {
+        $this->bntUrl = $bntUrl;
 
         return $this;
     }

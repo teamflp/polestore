@@ -2,67 +2,18 @@
 
 {% block title %} Boutique Poles {% endblock %}
 
-{% block carousel %}{% endblock %}
-
 {% block body %}
-
-{#    <h1>Bienvenu sur Poles Store</h1>
+{% block carousel %}{% endblock %}
     <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Catégories</h1>
-            </div>
-            #}{#{% for category in categories %}
-                <div class="col-lg-4">
-                    <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                    <h2><a href="{{ path('home', {'category': category.id}) }}">{{ category.name }}</a></h2>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-                    <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
-                </div>
-            {% endfor %}#}{#
-        </div>
-    </div>#}
-
-
-    <h1>Bienvenu sur Poles Store</h1>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Catégories</h1>
-            </div>
-            {% for category in categories %}
-                <div class="col-lg-4">
-                    <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                    <h2><a href="{{ path('home', {'category': category.name}) }}">{{ category.name }}</a></h2>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-                    <p><a class="btn btn-secondary" href="{{ path('home', {'category': category.name}) }}" role="button">View details »</a></p>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-
-{% endblock %}
-
-{% block content %}
-    <div class="container mt-5">
+        <h1>Les favoris de nos clients </h1>
+        <p>Découvrez notre sélection des produits les plus populaires !</p>
         <div class="row">
             {% for product in products %}
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <a href="{{ path('home', {'id': product.id}) }}"><img class="card-img-top" src="{{ asset('uploads/'~product.illustration) }}" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="{{ path('home', {'id': product.id}) }}">{{ product.name }}</a>
-                            </h4>
-                            <h5>{{ product.price }} €</h5>
-                            <p class="card-text">{{ product.subtitle }}</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                        </div>
-                    </div>
+                <div class="col-md-3">
+                    {% include 'product/single_product.html.twig' %}
                 </div>
             {% endfor %}
         </div>
     </div>
 {% endblock %}
+

@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
-use App\Classe\Mail;
 use App\Classe\Search;
+use App\Entity\Carousel;
 use App\Entity\Category;
 use App\Entity\Product;
-use App\Form\SearchType;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,24 +25,14 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(Request $request): Response
     {
-        $search = new Search();
-
-        $search->string = $request->get('q', '');
-        $search->categories = $request->get('categories', []);
-        $search->productName = $request->get('productName', '');
-        $search->categoryName = $request->get('categoryName', '');
-        $search = $request->query->get('search');
-
-        // Récupérer la liste de toutes les catégories
-        $categories = $this->em->getRepository(Category::class)->findAll();
-
-        // Mailjet
-        /*$mail = new Mail();
-        $mail->send('paterne81@hotmail.fr', 'Paterne81', 'Mail de test', 'Mon mail de test Mailjet');*/
+        //$categories = $this->em->getRepository(Category::class)->findAll();
+        // Affichage des meilleurs produits
+        $products = $this->em->getRepository(Product::class)->findByIsBest(1);
+        $carousels = $this->em->getRepository(Carousel::class)->findAll();
 
         return $this->render('home/index.html.twig', [
-            'search' => $search,
-            'categories' => $categories,
+            'products' => $products,
+            'carousels' => $carousels,
         ]);
     }
 

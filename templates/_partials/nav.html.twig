@@ -1,4 +1,5 @@
-{#<nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top">
+{#
+<nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top">
     <div class="container-fluid text-uppercase">
         <a class="navbar-brand w3-text-white" href="{{ path('home') }}">Poles</a>
 
@@ -30,9 +31,10 @@
         </div>
 
     </div>
-</nav>#}
+</nav>
+#}
 
-<nav class="navbar navbar-expand-lg navbar-light w3-light-grey fixed-top">
+<nav class="navbar navbar-expand-lg navbar-light w3-white fixed-top">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fas fa-bars"></i>
@@ -61,13 +63,15 @@
             </div>
         </div>
 
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center border">
             <div class="dropdown">
                 {% if not is_granted("ROLE_ADMIN") and is_granted("ROLE_USER") %}
-                    <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                        {#{{ app.user.email }} #}&nbsp;
-                        <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="25" alt="Black and White Portrait of a Man" loading="lazy" />
+                    <a class="dropdown-toggle d-flex align-items-center hidden-arrow custom-dropdown-link" href="#" id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                        <div class="text-center mx-auto">
+                            <img src="{{ asset('uploads/' ~ app.user.avatar) }}" class="rounded-circle" height="25" alt="{{ app.user.firstname }} {{ app.user.lastname }}" loading="lazy" />
+                        </div>
                     </a>
+                    <small class="mx-auto"> {{ app.user.firstname }}</small>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
                         <li><a class="dropdown-item" href="{{ path('app_account') }}">Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
@@ -76,11 +80,12 @@
                 {% endif %}
 
                 {% if is_granted("ROLE_ADMIN") %}
-                    <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                        {#{{ app.user.email }} #}&nbsp;
-                        <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="25" alt="Black and White Portrait of a Man" loading="lazy" />
+                    <a class="dropdown-toggle d-flex align-items-center  text-center hidden-arrow custom-dropdown-link" href="#" id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                        <div class="text-center mx-auto">
+                            <img src="{{ asset('uploads/' ~ app.user.avatar) }}" class="rounded-circle" height="25" alt="{{ app.user.firstname }} {{ app.user.lastname }}" loading="lazy" />
+                        </div>
                     </a>
-                        <small class="mx-auto"> {{ app.user.firstname }}</small>
+                    <small class="mx-auto"> {{ app.user.firstname }}</small>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
                         <li><a class="dropdown-item" href="{{ path('admin') }}">Espace admin</a></li>
                         <li><a class="dropdown-item" href="{{ path('app_account') }}">Profile</a></li>
@@ -92,7 +97,7 @@
             </div>
             <div class="dropdown" style="margin-right: 6rem">
                 {% if not is_granted("ROLE_ADMIN") and not is_granted("ROLE_USER") %}
-                    <a class="dropdown-toggle d-flex align-items-center hidden-arrow btn w3-black" href="#">
+                    <a class="d-flex align-items-center hidden-arrow btn w3-black custom-dropdown-link" href="#">
                         <i class="fas fa-user-circle"></i> &nbsp; Compte
                     </a>
 

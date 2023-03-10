@@ -8,15 +8,13 @@ Dans le formulaire, on a ajouté un bouton de type "submit" pour lancer la reche
 En utilisant ce code, seuls les produits dont le nom contient la chaîne de caractères saisie devraient s'afficher après la recherche.
 #}
 
-{#
 {% if search is defined and search.productName is defined %}
     {% set products = products|filter(p => p.name matches '/\\b'~search.productName|lower~'/i') %}
 {% endif %}
-#}
 
 <form class="d-flex mx-auto" method="get" action="{{ path('products') }}">
     <div class="input-group">
-        <input class="form-control w3-input w3-bar-item w3-white w3-hide-small" type="search" name="productName" placeholder="Rechercher" aria-label="Search">
+        <input class="form-control w3-input w3-border w3-bar-item w3-white w3-hide-small" type="search" name="productName" placeholder="Rechercher" aria-label="Search">
         <button type="submit" class="btn w3-black">Rechercher</button>
     </div>
 </form>
@@ -26,8 +24,8 @@ En utilisant ce code, seuls les produits dont le nom contient la chaîne de cara
     <input class="w3-input w3-bar-item w3-white w3-hide-small" type="search" name="productName" placeholder="Rechercher" aria-label="Search">
     <button class="btn w3-black" type="submit" data-mdb-ripple-color="dark">Rechercher</button>
 </form>
-#}
 
+#}
 
 
 

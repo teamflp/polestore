@@ -10,26 +10,6 @@
             <h3>Filtrer</h3>
             {{ form_start(form) }}
             {{ form_widget(form) }}
-
-           {# <form class="w-100 mr-20" method="get" action="{{ path('products') }}">
-                <div class="col">
-#}{#
-                    <input class="form-control w3-input w3-border" type="search" name="string" placeholder="Rechercher" aria-label="Search" value="{{ search ? search.string : '' }}">
-#}{#
-                    <select class="w3-select w3-border mr-sm-2 mt-3" name="categories[]">
-                        <option value="">Toutes les catégories</option>
-                        {% for category in categories %}
-                            <option value="{{ category.id }}" {% if search and category.id in search.categories %}selected{% endif %}>{{ category.name }}</option>
-                        {% endfor %}
-                    </select>
-                    <input class="form-control w3-input w3-border mt-3" type="search" name="productName" placeholder="Nom du produit" value="{{ search ? search.productName : '' }}">
-#}{#
-                    <input class="form-control w3-input w3-border mt-3" type="search" name="categoryName" placeholder="Nom de la catégorie" value="{{ search ? search.categoryName : '' }}">
-#}{#
-                </div>
-                <button type="submit" class="btn w3-btn w3-teal w-100 mt-5">Filtrer</button>
-            </form>#}
-
         </div>
 
         <div class="col-md-10">
@@ -46,31 +26,7 @@
 
                     {% for product in products %}
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="card mb-4 box-shadow">
-                                <a href="{{ path('product', {slug: product.slug}) }}" class="btn btn-sm w3-hover">
-                                    <img src="{{ asset('uploads/' ~ product.illustration) }}" class="img-fluid" alt="{{ product.name }}">
-                                </a>
-                                <div class="card-body">
-                                    <div class="col-md-12 mb-3 text-center">
-                                        <small>
-                                            <a href="{{ path('product', {slug: product.slug}) }}" class="btn btn-sm w3-hover">
-                                                <b>{{ product.name }}</b>
-                                            </a>
-                                        </small>
-                                        <hr>
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        {% if product.isStock >= 50 %}
-                                            <div class="btn-group">
-                                                <a class="text-primary" href="{{ path('add_to_cart', {id: product.id}) }}"><i class="fas fa-cart-plus"></i></a>
-                                            </div>
-                                            <small class="text-muted"><b>{{ (product.price / 100)|number_format(2, ',', ',') }} €</b></small>
-                                        {% else %}
-                                            <b class="text-danger">En rupture de stock</b>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
+                            {% include 'product/single_product.html.twig' %}
                         </div>
                     {% endfor %}
                 </div>
@@ -82,25 +38,4 @@
     {% block javascripts %}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" integrity="sha512-vu31kD/t3Hq3y7pITeRK5g5qlKjQ6uSSR6H5d6Ufi7VUZqf3q7ouUyF5z5b5EoItFvEd8PZnSdKXAcddbrTYbg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-XNwKPdZm3qZ1Kp9AZ+OJ20GLxbFCbLhsyKXPW1+eRHw+sGktvY82+EKY8yP86n0CfPRNOvMDUhZtQ8Z9TbTlLg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-        <script>
-            function updatePrice(slider) {
-              document.getElementById('maxPriceSpan').textContent = slider.value;
-            }
-
-            // Sélectionne le champ price
-            const priceRange = document.querySelector('#search_price');
-
-            // Sélectionne l'élément HTML pour afficher la valeur du prix
-            const priceValue = document.querySelector('#price-value');
-
-            // Met à jour l'élément HTML avec la valeur actuelle du champ price
-            priceValue.textContent = priceRange.value;
-
-            // Ajoute un événement de changement d'entrée sur le champ price
-            priceRange.addEventListener('input', function() {
-                priceValue.textContent = this.value;
-            });
-
-        </script>
     {% endblock %}

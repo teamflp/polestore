@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Carousel;
 use App\Entity\Carrier;
 use App\Entity\Category;
 use App\Entity\Invoice;
@@ -108,6 +109,12 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Gestion des factures');
         yield MenuItem::linkToCrud('Factures', 'fas fa-file-invoice', Invoice::class)
+            ->setDefaultSort(['id' => 'DESC'])
+            ->setCssClass('text-uppercase font-weight-bold text-warning')
+            ->setPermission('ROLE_ADMIN');
+
+        yield MenuItem::section('Gestion des carousels');
+        yield MenuItem::linkToCrud('Carousel', 'fas fa-images', Carousel::class)
             ->setDefaultSort(['id' => 'DESC'])
             ->setCssClass('text-uppercase font-weight-bold text-warning')
             ->setPermission('ROLE_ADMIN');

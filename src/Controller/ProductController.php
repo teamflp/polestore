@@ -23,45 +23,42 @@ class ProductController extends AbstractController
     #[Route('/nos-produits', name: 'products')]
     public function index(Request $request): Response
     {
-        $search = new Search([
-            'string' => $request->get('string'),
-            'categories' => $request->get('categories', []),
-            'productName' => $request->get('productName'),
-            'categoryName' => $request->get('categoryName'),
-        ]);
-
+        $search = new Search();
         $form = $this->createForm(SearchType::class, $search);
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $products = $this->em->getRepository(Product::class)->findWithSearch($search);
         } else {
             $products = $this->em->getRepository(Product::class)->findAll();
+            $this->redirectToRoute('products');
         }
-
-        $categories = $this->em->getRepository(Category::class)->findAll();
+        $search->string = $request->get('q', '');
+        $search->categories = $request->get('categories', []);
+        $search->productName = $request->get('productName', '');
+        $search->categoryName = $request->get('categoryName', '');
+        $products = $this->em->getRepository(Product::class)->findWithSearch($search);
+        $search = $request->query->get('search');
 
         return $this->render('product/index.html.twig', [
             'products' => $products,
             'search' => $search,
-            'form' => $form->createView(),
-            'categories' => $categories,
+            'form' => $form->createView()
         ]);
     }
-
 
     #[Route('/produit/{slug}', name: 'product')]
     public function show($slug): Response
     {
         $product = $this->em->getRepository(Product::class)->findOneBySlug($slug);
+        $products = $this->em->getRepository(Product::class)->findByIsBest(1);
 
         if (!$product) {
             return $this->redirectToRoute('products');
         }
 
         return $this->render('product/show.html.twig', [
-            'product' => $product
+            'product' => $product,
+            'products' => $products,
         ]);
     }
 }
