@@ -18,7 +18,7 @@
 
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg w3-teal bg-primary fixed-top">
+        {#<nav class="navbar navbar-expand-lg w3-teal bg-primary fixed-top">
             <div class="container">
                 <a class="navbar-brand w3-text-white" href="{{ path('home') }}">Poles</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                     {#Si l'utilisateur n'a pas le rôle admin et qu'il a le rôle user#}
+                     #}{#Si l'utilisateur n'a pas le rôle admin et qu'il a le rôle user#}{#
                     {% if not is_granted("ROLE_ADMIN") and is_granted("ROLE_USER") %}
                         <ul class="navbar-nav mb-2 mb-lg-0">
                             <li class="nav-item dropdown">
@@ -55,7 +55,7 @@
                         </ul>
                     {% endif %}
 
-                     {#Si l'utilisateur a uniquement le rôle admin#}
+                     #}{#Si l'utilisateur a uniquement le rôle admin#}{#
                     {% if is_granted("ROLE_ADMIN") %}
                         <ul class="navbar-nav mb-2 mb-lg-0">
                             <li class="nav-item dropdown">
@@ -75,7 +75,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         {% include '_partials/search.html.twig' %}
                     </div>
-                     {#Sinon, si aucune action#}
+                     #}{#Sinon, si aucune action#}{#
                     {% if not is_granted("ROLE_ADMIN") and not is_granted("ROLE_USER") %}
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item login">
@@ -93,7 +93,7 @@
                     </a>
                 </div>
             </div>
-        </nav>
+        </nav>#}
 
 
         {# BARRE DE NAVIGATION PERSONNALISÉE #}
@@ -131,6 +131,8 @@
             </div>
         </nav>#}
 
+
+        {% include '_partials/nav.html.twig' %}
 
         {# BARRE DE NAVIGATION PERSONNALISÉE #}
         <main role="main" class="mb-xxl-5 pt-5">
@@ -195,7 +197,6 @@
                 <p>© 2017-2018 Boutique Poles. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
             </footer>#}
         </main>
-
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js" integrity="sha512-i9cEfJwUwViEPFKdC1enz4ZRGBj8YQo6QByFTF92YXHi7waCqyexvRD75S5NVTsSiTv7rKWqG9Y5eFxmRsOn0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

@@ -35,12 +35,12 @@ class OrderSuccessController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        if ($order->getIsPaid()) {
+        if ($order->getState()) {
             $this->addFlash('warning', 'Cette commande a déjà été validée');
             return $this->render('order_success/index.html.twig', ['order' => $order]);
         }
 
-        $order->setIsPaid(true);
+        $order->setState(1); // Commande validée
         $this->em->flush();
         $this->addFlash('success', 'Votre commande a bien été validée.');
 

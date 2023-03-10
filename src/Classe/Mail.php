@@ -48,7 +48,7 @@ class Mail
         try {
             $response = $mj -> post(Resources ::$Email, ['body' => $body]);
             $response->success();
-            $this->logger->info('Email sent', ['to_email' => $to_email, 'subject' => $subject]);
+            $this->logger->info('Email envoyé', ['to_email' => $to_email, 'subject' => $subject]);
         } catch (\Exception $e) {
             $this->logger->error('Error sending email', ['error' => $e->getMessage()]);
         }

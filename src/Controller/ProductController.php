@@ -20,59 +20,35 @@ class ProductController extends AbstractController
     {
         $this->em = $em;
     }
-
     #[Route('/nos-produits', name: 'products')]
     public function index(Request $request): Response
     {
-        // Récupérer toutes les catégories depuis la base de données
-        $categories = $this->em->getRepository(Category::class)->findAll();
-        $priceRange = $this->em->getRepository(Product::class)->findPriceRange();
+        $search = new Search([
+            'string' => $request->get('string'),
+            'categories' => $request->get('categories', []),
+            'productName' => $request->get('productName'),
+            'categoryName' => $request->get('categoryName'),
+        ]);
 
-        $search = new Search();
         $form = $this->createForm(SearchType::class, $search);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $products = $this->em->getRepository(Product::class)->findWithSearch($search, (int)$priceRange['maxPrice']);
+            $products = $this->em->getRepository(Product::class)->findWithSearch($search);
         } else {
             $products = $this->em->getRepository(Product::class)->findAll();
-            $this->redirectToRoute('products');
         }
 
-        //$search = new Search();
-        $search->string = $request->get('q', '');
-        $search->categories = $request->get('categories', []);
-        $search->productName = $request->get('productName', '');
-        $search->categoryName = $request->get('categoryName', '');
-        $search->minPrice = intval($request->query->get('minPrice', $priceRange['minPrice']));
-        $search->maxPrice = intval($request->query->get('maxPrice', $priceRange['maxPrice']));
-        $products = $this->em->getRepository(Product::class)->findWithSearch($search, (int)$priceRange['minPrice']);
+        $categories = $this->em->getRepository(Category::class)->findAll();
 
-
-
-        $products = $this->em->getRepository(Product::class)->findWithSearch($search, (int)$priceRange['maxPrice'], (int)$priceRange['minPrice']);
-        $search = $request->query->get('search');
-
-        // Calculate price range
-        $prices = array_map(function ($product) {
-            return $product->getPrice();
-        }, $products);
-
-        if (count($prices) > 0) {
-            $priceRange = ['min' => min($prices), 'max' => max($prices)];
-        }
-
-        //dd($products);
         return $this->render('product/index.html.twig', [
             'products' => $products,
             'search' => $search,
             'form' => $form->createView(),
-            'categories' => $categories, // Passer toutes les catégories au modèle
-            'priceRange' => $priceRange ?? null, // Passer le tableau des prix au modèle
+            'categories' => $categories,
         ]);
     }
-
 
 
     #[Route('/produit/{slug}', name: 'product')]
@@ -81,9 +57,11 @@ class ProductController extends AbstractController
         $product = $this->em->getRepository(Product::class)->findOneBySlug($slug);
 
         if (!$product) {
-            return $this->redirectToRoute('product');
+            return $this->redirectToRoute('products');
         }
 
-        return $this->render('product/show.html.twig', compact('product'));
+        return $this->render('product/show.html.twig', [
+            'product' => $product
+        ]);
     }
 }

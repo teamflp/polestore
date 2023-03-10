@@ -40,52 +40,35 @@ class ProductRepository extends ServiceEntityRepository
         }
     }
 
-    public function findWithSearch(Search $search)
+    public function findWithSearch(Search $search): array
     {
         $query = $this->createQueryBuilder('p')
-            ->select('c', 'p')
-            ->join('p.category', 'c');
+            ->select('p', 'c')
+            ->leftJoin('p.category', 'c');
+
+        if (!empty($search->string)) {
+            $query = $query->andWhere('p.name LIKE :string')
+                ->setParameter('string', '%' . $search->string . '%');
+        }
 
         if (!empty($search->categories)) {
-            $query = $query
-                ->andWhere('c.id IN (:categories)')
+            $query = $query->andWhere('c.id IN (:categories)')
                 ->setParameter('categories', $search->categories);
         }
 
-        if (!empty($search->string)) {
-            $query = $query
-                ->andWhere('p.name LIKE :string OR c.name LIKE :string')
-                ->setParameter('string', '%'.$search->string.'%');
+        if (!empty($search->productName)) {
+            $query = $query->andWhere('p.name LIKE :productName')
+                ->setParameter('productName', '%' . $search->productName . '%');
         }
 
-        if (!empty($search->minPrice)) {
-            $query = $query
-                ->andWhere('p.price >= :minPrice')
-                ->setParameter('minPrice', $search->minPrice);
-        }
-
-        if (!empty($search->maxPrice)) {
-            $query = $query
-                ->andWhere('p.price <= :maxPrice')
-                ->setParameter('maxPrice', $search->maxPrice);
+        if (!empty($search->categoryName)) {
+            $query = $query->andWhere('c.name LIKE :categoryName')
+                ->setParameter('categoryName', '%' . $search->categoryName . '%');
         }
 
         return $query->getQuery()->getResult();
     }
 
-    public function findPriceRange(): array
-    {
-        $query = $this->createQueryBuilder('p')
-            ->select('MIN(p.price) as minPrice', 'MAX(p.price) as maxPrice')
-            ->getQuery();
-
-        $result = $query->getSingleResult();
-
-        return [
-            'minPrice' => $result['minPrice'],
-            'maxPrice' => $result['maxPrice'],
-        ];
-    }
 
 //    /**
 //     * @return Product[] Returns an array of Product objects

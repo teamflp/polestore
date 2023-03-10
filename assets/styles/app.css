@@ -1,9 +1,13 @@
-
+body {
+    background-color: #e7e4e4;
+}
 i {
     font-size: 20px;
 }
 
-
+nav a:link {
+    text-transform: uppercase;
+}
 .add-and-remove-to-cart button {
     margin-right: 10px;
 }

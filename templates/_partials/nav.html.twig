@@ -1,0 +1,112 @@
+{#<nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top">
+    <div class="container-fluid text-uppercase">
+        <a class="navbar-brand w3-text-white" href="{{ path('home') }}">Poles</a>
+
+        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarButtonsExample" aria-controls="navbarButtonsExample" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarButtonsExample">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link w3-text-white" href="{{ path('products') }}">Boutique</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link w3-text-white" href="#">Qui sommes-nous ?</a>
+                </li>
+            </ul>
+            {% include '_partials/search.html.twig' %}
+            <div class="d-flex align-items-center">
+                <button type="button" class="btn btn-link px-3 me-2">
+                    Login
+                </button>
+                <button type="button" class="btn btn-primary me-3">
+                    <a class="w3-text-white text-uppercase btn btn-outline-info w-100" href="{{ path('inscription') }}">Inscription</a>
+                </button>
+                <a class="px-3 text-white" href="https://github.com/mdbootstrap/mdb-ui-kit" role="button" >
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</nav>#}
+
+<nav class="navbar navbar-expand-lg navbar-light w3-light-grey fixed-top">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <a class="navbar-brand mt-2 mt-lg-0" href="#">
+                <a class="navbar-brand" href="{{ path('home') }}">Poles</a>
+            </a>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('products') }}"> <i class="fas fa-store"></i> Boutique</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Qui sommes-nous ?</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contacts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">FAQs</a>
+                </li>
+            </ul>
+            <div class="mx-auto d-flex">
+                {% include '_partials/search.html.twig' %}
+            </div>
+        </div>
+
+        <div class="d-flex align-items-center">
+            <div class="dropdown">
+                {% if not is_granted("ROLE_ADMIN") and is_granted("ROLE_USER") %}
+                    <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                        {#{{ app.user.email }} #}&nbsp;
+                        <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="25" alt="Black and White Portrait of a Man" loading="lazy" />
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                        <li><a class="dropdown-item" href="{{ path('app_account') }}">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ path('app_logout') }}"><i class="fas fa-right-from-bracket"></i> Déconnexion</a></li>
+                    </ul>
+                {% endif %}
+
+                {% if is_granted("ROLE_ADMIN") %}
+                    <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                        {#{{ app.user.email }} #}&nbsp;
+                        <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="25" alt="Black and White Portrait of a Man" loading="lazy" />
+                    </a>
+                        <small class="mx-auto"> {{ app.user.firstname }}</small>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                        <li><a class="dropdown-item" href="{{ path('admin') }}">Espace admin</a></li>
+                        <li><a class="dropdown-item" href="{{ path('app_account') }}">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a></li>
+                    </ul>
+                {% endif %}
+
+            </div>
+            <div class="dropdown" style="margin-right: 6rem">
+                {% if not is_granted("ROLE_ADMIN") and not is_granted("ROLE_USER") %}
+                    <a class="dropdown-toggle d-flex align-items-center hidden-arrow btn w3-black" href="#">
+                        <i class="fas fa-user-circle"></i> &nbsp; Compte
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                        <li><a class="dropdown-item text-uppercase" href="{{ path('app_login') }}"> Connexion</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-uppercase" href="{{ path('inscription') }}">Inscription</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="d-flex align-items-center">
+            <a class="text-reset me-3" href="{{ path('cart') }}"><i class="fas fa-shopping-cart"></i></a>
+        </div>
+    </div>
+</nav>

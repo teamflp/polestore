@@ -6,7 +6,6 @@ use App\Classe\Search;
 use App\Entity\Category;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -32,15 +31,6 @@ class SearchType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true,
-            ])
-            ->add('priceRange', RangeType::class, [
-                'mapped' => false,
-                'label' => 'Filtrer par prix',
-                'attr' => [
-                    'min' => 0,
-                    'max' => 1000,
-                    'step' => 10,
-                ]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Filtrer',

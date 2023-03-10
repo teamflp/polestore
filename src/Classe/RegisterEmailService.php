@@ -20,6 +20,6 @@ class RegisterEmailService
     {
         $content = "Bonjour, ". $user->getFirstName(). ' '. $user->getLastName() . "\n Bienvenue sur notre boutique.\n\n";
         $this->mail->send($user->getEmail(), $user->getFirstName(). ' '. $user->getLastName(), 'Bienvenue sur notre boutique', $content);
-        $this->logger->info('Registration confirmation email sent', ['to_email' => $user->getEmail()]);
+        $this->logger->info('Email de confirmation d\'inscription envoyé', ['to_email' => $user->getEmail()]);
     }
 }

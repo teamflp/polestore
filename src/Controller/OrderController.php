@@ -79,7 +79,11 @@ class OrderController extends AbstractController
             $order -> setCarrierName($carriers -> getName());
             $order -> setCarrierPrice($carriers -> getPrice());
             $order -> setDelivery($delivery_content);
-            $order -> setIsPaid(0);
+            $order -> setState(0);
+
+            // 0 = non valide, 1 = valide
+
+
             $this -> em -> persist($order);
 
             foreach ($cart->getFull() as $product) {

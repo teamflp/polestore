@@ -8,103 +8,28 @@
     <div class="row">
         <div class="col-md-2">
             <h3>Filtrer</h3>
-            {#{{ form_start(form) }}
-            {{ form_widget(form) }}#}
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
 
-           {#<form class="w-100 mr-20" method="get" action="{{ path('products') }}">
+           {# <form class="w-100 mr-20" method="get" action="{{ path('products') }}">
                 <div class="col">
-                    <input class="form-control rounded-pill w3-input w3-border" type="search" name="string" placeholder="Rechercher" aria-label="Search" value="{{ search ? search.string : '' }}">
-                    <select class="w3-select rounded-pill w3-border mr-sm-2 mt-3" name="category">
+#}{#
+                    <input class="form-control w3-input w3-border" type="search" name="string" placeholder="Rechercher" aria-label="Search" value="{{ search ? search.string : '' }}">
+#}{#
+                    <select class="w3-select w3-border mr-sm-2 mt-3" name="categories[]">
                         <option value="">Toutes les catégories</option>
                         {% for category in categories %}
-                            <option value="{{ category.id }}" {% if search and category.id == search.category %}selected{% endif %}>{{ category.name }}</option>
+                            <option value="{{ category.id }}" {% if search and category.id in search.categories %}selected{% endif %}>{{ category.name }}</option>
                         {% endfor %}
                     </select>
+                    <input class="form-control w3-input w3-border mt-3" type="search" name="productName" placeholder="Nom du produit" value="{{ search ? search.productName : '' }}">
+#}{#
+                    <input class="form-control w3-input w3-border mt-3" type="search" name="categoryName" placeholder="Nom de la catégorie" value="{{ search ? search.categoryName : '' }}">
+#}{#
                 </div>
                 <button type="submit" class="btn w3-btn w3-teal w-100 mt-5">Filtrer</button>
-           </form>
-                <hr class="w3-border"></hr>
-           <form class="w-100 mr-20" method="get" action="{{ path('products') }}">
-                <div class="col mt-4">
-                       #}{#{% if search.min is defined %}
-                            <span class="w3-badge">{{ search.min }}</span><br><br>
-                       {% else %}
-                            <span class="w3-badge">{{ priceRange.min }}</span><br><br>
-                       {% endif %}#}{#
+            </form>#}
 
-                    <label for="max_price">Prix maximum : <span id="maxPriceSpan" class="w-text-teal">{{ (search ? search.maxPrice/100 : priceRange.max/100)|number_format(2, ',',',') }} €</span></label>
-                    <input class="w3-input w3-border" type="range" name="maxPrice" id="max_price" min="{{ priceRange.min }}" max="{{ priceRange.max }}" value="{{ (search ? search.maxPrice/100 : priceRange.max/100)|number_format(2, ',',',') }} }} €" oninput="updatePrice(this)">
-                </div>
-                <button type="submit" class="btn w3-btn w3-teal w-100 mt-5">Filtrer par prix</button>
-           </form>#}
-
-           {#{% if search is not null and search.string is defined %}
-                <p>Vous avez recherché "{{ search.string }}"</p>
-           {% else %}
-                <p>Aucune recherche effectuée</p>
-           {% endif %}
-
-
-           {% if search.minPrice is defined or search.maxPrice is defined %}
-                <p>Vous avez sélectionné une fourchette de prix entre "{{ search.minPrice|number_format(2, ',', ' ') }} €" et "{{ search.maxPrice|number_format(2, ',', ' ') }} €"</p>
-           {% endif %}
-
-           <form class="w-100 mr-20" method="get" action="{{ path('products') }}">
-                <div class="col">
-                <input class="form-control rounded-pill w3-input w3-border" type="search" name="string" placeholder="Rechercher" aria-label="Search" value="{{ search ? search.string : '' }}">
-
-                    <select class="w3-select rounded-pill w3-border mr-sm-2 mt-3" name="category">
-                        <option value="">Toutes les catégories</option>
-                        {% for category in categories %}
-                            <option value="{{ category.id }}" {% if search and category.id == search.category %}selected{% endif %}>{{ category.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <button type="submit" class="btn w3-btn w3-teal w-100 mt-5">Filtrer</button>
-           </form>
-
-           <hr class="w3-border">
-
-           <form class="w-100 mr-20" method="get" action="{{ path('products') }}">
-                <div class="col mt-4">
-                    <label for="max_price">Prix maximum : <span id="maxPriceSpan" class="w-text-teal">{{ (search ? search.maxPrice/100 : priceRange.max/100)|number_format(2, ',',',') }} €</span></label>
-                    <input class="w3-input w3-border" type="range" name="maxPrice" id="max_price" min="{{ priceRange.min }}" max="{{ priceRange.max }}" value="{{ (search ? search.maxPrice/100 : priceRange.max/100)|number_format(2, ',',',') }} }} €" oninput="updatePrice(this)">
-                </div>
-                <button type="submit" class="btn w3-btn w3-teal w-100 mt-5">Filtrer par prix</button>
-           </form>#}
-
-
-           {% if search is not null and search.string is defined %}
-                <p>Vous avez recherché "{{ search.string }}"</p>
-           {% else %}
-                <p>Aucune recherche effectuée</p>
-            {% endif %}
-
-           {% if search.minPrice is defined or search.maxPrice is defined %}
-                <p>Vous avez sélectionné une fourchette de prix entre "{{ search.minPrice|number_format(2, ',', ' ') }} €" et "{{ search.maxPrice|number_format(2, ',', ' ') }} €"</p>
-           {% endif %}
-
-            <form class="w-100 mr-20" method="get" action="{{ path('products') }}">
-                <div class="col">
-                    <input class="w3-input rounded-pill w3-border" type="search" name="string" placeholder="Rechercher" aria-label="Search" value="{{ search ? search.string : '' }}">
-
-                    <select class="w3-select rounded-pill form-control w3-input w3-bar-item w3-border mr-sm-2 mt-3" name="category">
-                        <option value="">Toutes les catégories</option>
-                        {% for category in categories %}
-                            <option value="{{ category.id }}" {% if search and category.id == search.category %}selected{% endif %}>{{ category.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="col mt-4">
-                    <label for="max_price">Prix maximum :
-                       <span id="maxPriceSpan" class="w-text-teal">{{ (search ? (search.maxPrice/100)|number_format(2, ',', '.') : (priceRange.max/100)|number_format(2, ',', '.')) ~ ' €' }}</span>
-                    </label>
-                    <input class="form-range rounded-pill w3-input w3-bar-item" type="range" name="maxPrice" id="max_price" min="{{ priceRange.min }}" max="{{ priceRange.max }}" value="{{ search ? (search.maxPrice/100)|number_format(2, ',',',') : (priceRange.max/100)|number_format(2, ',',',') }}" oninput="updatePrice(this)">
-                </div>
-
-                <button type="submit" class="btn w3-btn w3-teal w-100 mt-5">Filtrer</button>
-            </form>
         </div>
 
         <div class="col-md-10">
@@ -159,18 +84,23 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-XNwKPdZm3qZ1Kp9AZ+OJ20GLxbFCbLhsyKXPW1+eRHw+sGktvY82+EKY8yP86n0CfPRNOvMDUhZtQ8Z9TbTlLg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <script>
-            $(document).ready(function() {
-                $('#flash-message').show().delay(5000).fadeOut();
-            });
-
-            $('.slider').slider({
-              formatter: function(value) {
-                return '$' + value;
-              }
-            });
-
             function updatePrice(slider) {
               document.getElementById('maxPriceSpan').textContent = slider.value;
             }
+
+            // Sélectionne le champ price
+            const priceRange = document.querySelector('#search_price');
+
+            // Sélectionne l'élément HTML pour afficher la valeur du prix
+            const priceValue = document.querySelector('#price-value');
+
+            // Met à jour l'élément HTML avec la valeur actuelle du champ price
+            priceValue.textContent = priceRange.value;
+
+            // Ajoute un événement de changement d'entrée sur le champ price
+            priceRange.addEventListener('input', function() {
+                priceValue.textContent = this.value;
+            });
+
         </script>
     {% endblock %}

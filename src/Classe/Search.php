@@ -2,6 +2,8 @@
 
 namespace App\Classe;
 
+use App\Entity\Category;
+
 class Search
 {
     /**
@@ -10,7 +12,7 @@ class Search
     public ?string $string = '';
 
     /**
-     * @var int[]|null
+     * @var Category[]|null
      */
     public ?array $categories = [];
 
@@ -23,14 +25,5 @@ class Search
      * @var string|null
      */
     public ?string $categoryName = '';
-
-    /**
-     * @var int|null
-     */
-    public ?int $minPrice = null;
-
-    /**
-     * @var int|null
-     */
-    public ?int $maxPrice = null;
 }
+
