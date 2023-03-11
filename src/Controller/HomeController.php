@@ -42,7 +42,6 @@ class HomeController extends AbstractController
         $products = $this->em->getRepository(Product::class)->findBy(['category' => $category]);
 
         return $this->render('product/index.html.twig', [
-            'category' => $category,
             'products' => $products,
         ]);
     }
